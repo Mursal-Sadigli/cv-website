@@ -14,7 +14,7 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
         <div className="w-full mx-auto bg-white text-zinc-800">
             {/* Header - Full Width */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-0 px-4 sm:px-0">
-                <div className="col-span-1 py-6 sm:py-10 flex justify-center sm:block sm:text-left">
+                <div className="col-span-1 py-6 sm:py-10 flex justify-center sm:block">
                     {data.personal_info?.image && typeof data.personal_info.image === 'string' ? (
                         <div className="mb-4 sm:mb-6 w-24 h-24 sm:w-32 sm:h-32 flex items-center justify-center rounded-full overflow-hidden flex-shrink-0" style={{ background: accentColor+'70' }}>
                             <img src={data.personal_info.image} alt="Profile" className="w-full h-full object-cover" />
