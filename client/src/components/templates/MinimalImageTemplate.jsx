@@ -14,16 +14,7 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
         <div className="w-full mx-auto bg-white text-zinc-800">
             {/* Header - Full Width */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-0 px-4 sm:px-0">
-                <div className="col-span-1 sm:col-span-2 flex flex-col justify-center py-4 sm:py-10 px-0 sm:px-8 text-center sm:text-left order-2 sm:order-1">
-                    <h1 className="text-2xl sm:text-4xl font-bold text-zinc-700 tracking-widest">
-                        {data.personal_info?.full_name || "Your Name"}
-                    </h1>
-                    <p className="uppercase text-zinc-600 font-medium text-xs sm:text-sm tracking-widest">
-                        {data?.personal_info?.profession || "Profession"}
-                    </p>
-                </div>
-
-                <div className="col-span-1 py-6 sm:py-10 flex justify-center sm:justify-start sm:pl-4 order-1 sm:order-2">
+                <div className="col-span-1 py-6 sm:py-10 flex justify-center sm:justify-end sm:pr-4">
                     {data.personal_info?.image && typeof data.personal_info.image === 'string' ? (
                         <div className="mb-4 sm:mb-6 w-24 h-24 sm:w-32 sm:h-32 flex items-center justify-center rounded-full overflow-hidden flex-shrink-0" style={{ background: accentColor+'70' }}>
                             <img src={data.personal_info.image} alt="Profile" className="w-full h-full object-cover" />
@@ -35,6 +26,15 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
                             </div>
                         ) : null
                     )}
+                </div>
+
+                <div className="col-span-1 sm:col-span-2 flex flex-col justify-center py-4 sm:py-10 px-0 sm:px-8 text-center sm:text-left">
+                    <h1 className="text-2xl sm:text-4xl font-bold text-zinc-700 tracking-widest">
+                        {data.personal_info?.full_name || "Your Name"}
+                    </h1>
+                    <p className="uppercase text-zinc-600 font-medium text-xs sm:text-sm tracking-widest">
+                        {data?.personal_info?.profession || "Profession"}
+                    </p>
                 </div>
             </div>
 
