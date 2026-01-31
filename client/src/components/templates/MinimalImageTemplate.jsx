@@ -11,36 +11,36 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
     };
 
     return (
-        <div className="max-w-5xl mx-auto bg-white text-zinc-800">
-            <div className="grid grid-cols-3">
+        <div className="w-full mx-auto bg-white text-zinc-800 px-4 sm:px-0">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-0">
 
-                <div className="col-span-1  py-10">
+                <div className="col-span-1 py-6 sm:py-10">
                     {/* Image */}
                     {data.personal_info?.image && typeof data.personal_info.image === 'string' ? (
-                        <div className="mb-6">
-                            <img src={data.personal_info.image} alt="Profile" className="w-32 h-32 object-cover rounded-full mx-auto" style={{ background: accentColor+'70' }} />
+                        <div className="mb-4 sm:mb-6">
+                            <img src={data.personal_info.image} alt="Profile" className="w-24 h-24 sm:w-32 sm:h-32 object-cover rounded-full mx-auto" style={{ background: accentColor+'70' }} />
                         </div>
                     ) : (
                         data.personal_info?.image && typeof data.personal_info.image === 'object' ? (
-                            <div className="mb-6">
-                                <img src={URL.createObjectURL(data.personal_info.image)} alt="Profile" className="w-32 h-32 object-cover rounded-full mx-auto" />
+                            <div className="mb-4 sm:mb-6">
+                                <img src={URL.createObjectURL(data.personal_info.image)} alt="Profile" className="w-24 h-24 sm:w-32 sm:h-32 object-cover rounded-full mx-auto" />
                             </div>
                         ) : null
                     )}
                 </div>
 
                 {/* Name + Title */}
-                <div className="col-span-2 flex flex-col justify-center py-10 px-8">
-                    <h1 className="text-4xl font-bold text-zinc-700 tracking-widest">
+                <div className="col-span-1 sm:col-span-2 flex flex-col justify-center py-6 sm:py-10 px-0 sm:px-8">
+                    <h1 className="text-2xl sm:text-4xl font-bold text-zinc-700 tracking-widest">
                         {data.personal_info?.full_name || "Your Name"}
                     </h1>
-                    <p className="uppercase text-zinc-600 font-medium text-sm tracking-widest">
+                    <p className="uppercase text-zinc-600 font-medium text-xs sm:text-sm tracking-widest">
                         {data?.personal_info?.profession || "Profession"}
                     </p>
                 </div>
 
                 {/* Left Sidebar */}
-                <aside className="col-span-1 border-r border-zinc-400 p-6 pt-0">
+                <aside className="col-span-1 border-r-0 sm:border-r border-zinc-400 p-4 sm:p-6 pt-0">
 
 
                     {/* Contact */}
