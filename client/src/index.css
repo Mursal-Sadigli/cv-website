@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+/* Tailwind CSS 3 üçün bu direktivlər lazımdır */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: 'Outfit', sans-serif;
+}
+
+@layer base {
+  button {
+    cursor: pointer;
+  }
+  input:not([type="checkbox"]){
+    @apply outline-none focus:ring border border-gray-300 focus:ring-blue-500 focus:border-blue-500 rounded-lg;
+  }
+  textarea{
+    @apply outline-none focus:ring border border-gray-300 focus:ring-blue-500 focus:border-blue-500 rounded-lg resize-none;
+  }
+}
