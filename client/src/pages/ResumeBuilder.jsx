@@ -91,70 +91,7 @@ const ResumeBuilder = () => {
   }
 
   const downloadResume = () => {
-    const resumeElement = document.getElementById('resume-preview');
-    if (!resumeElement) {
-      alert('Resume not found!');
-      return;
-    }
-
-    // Create a new window for printing
-    const printWindow = window.open('', '', 'width=800,height=600');
-    if (!printWindow) {
-      alert('Please disable your browser popup blocker');
-      return;
-    }
-
-    // Clone and prepare content
-    const clonedContent = resumeElement.cloneNode(true);
-    
-    // Build the HTML document
-    const htmlContent = `
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Resume</title>
-        <style>
-          * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-          }
-          body {
-            width: 8.5in;
-            height: 11in;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-          }
-          @page {
-            size: letter;
-            margin: 0;
-            padding: 0;
-          }
-          @media print {
-            body {
-              margin: 0;
-              padding: 0;
-            }
-          }
-        </style>
-      </head>
-      <body>
-        ${resumeElement.innerHTML}
-      </body>
-      </html>
-    `;
-
-    printWindow.document.write(htmlContent);
-    printWindow.document.close();
-
-    // Wait for content to load, then print
-    setTimeout(() => {
-      printWindow.print();
-      printWindow.close();
-    }, 250);
+    window.print();
   }
 
   const saveResume = async() => {
