@@ -11,14 +11,14 @@ const ClassicTemplate = ({ data, accentColor }) => {
     };
 
     return (
-        <div className="max-w-4xl mx-auto p-8 bg-white text-gray-800 leading-relaxed">
+        <div className="w-full mx-auto px-4 sm:px-8 py-6 sm:py-8 bg-white text-gray-800 leading-relaxed text-sm sm:text-base">
             {/* Header */}
-            <header className="text-center mb-8 pb-6 border-b-2" style={{ borderColor: accentColor }}>
-                <h1 className="text-3xl font-bold mb-2" style={{ color: accentColor }}>
+            <header className="text-center mb-6 sm:mb-8 pb-4 sm:pb-6 border-b-2" style={{ borderColor: accentColor }}>
+                <h1 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: accentColor }}>
                     {data.personal_info?.full_name || "Your Name"}
                 </h1>
 
-                <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-600">
+                <div className="flex flex-wrap justify-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600">
                     {data.personal_info?.email && (
                         <div className="flex items-center gap-1">
                             <Mail className="size-4" />
