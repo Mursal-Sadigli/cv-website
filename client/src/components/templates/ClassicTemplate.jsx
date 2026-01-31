@@ -11,9 +11,9 @@ const ClassicTemplate = ({ data, accentColor }) => {
     };
 
     return (
-        <div className="w-full mx-auto px-4 sm:px-8 py-6 sm:py-8 bg-white text-gray-800 leading-relaxed text-sm sm:text-base">
+        <div className="w-full mx-auto px-4 sm:px-8 py-6 sm:py-8 bg-white text-gray-800 leading-relaxed text-sm sm:text-base print:p-0 print:px-6 print:py-0 print:m-0">
             {/* Header */}
-            <header className="text-center mb-6 sm:mb-8 pb-4 sm:pb-6 border-b-2" style={{ borderColor: accentColor }}>
+            <header className="text-center mb-6 sm:mb-8 pb-4 sm:pb-6 border-b-2 print:mb-4 print:pb-3" style={{ borderColor: accentColor }}>
                 <h1 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: accentColor }}>
                     {data.personal_info?.full_name || "Your Name"}
                 </h1>

@@ -10,9 +10,9 @@ const MinimalTemplate = ({ data, accentColor }) => {
     };
 
     return (
-        <div className="max-w-4xl mx-auto p-8 bg-white text-gray-900 font-light">
+        <div className="max-w-4xl mx-auto p-8 bg-white text-gray-900 font-light print:p-6 print:m-0">
             {/* Header */}
-            <header className="mb-10">
+            <header className="mb-10 print:mb-6">
                 <h1 className="text-4xl font-thin mb-4 tracking-wide">
                     {data.personal_info?.full_name || "Your Name"}
                 </h1>
