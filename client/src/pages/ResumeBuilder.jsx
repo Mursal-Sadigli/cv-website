@@ -91,20 +91,25 @@ const ResumeBuilder = () => {
   }
 
   const downloadResume = () => {
-    const style = document.createElement('style');
-    style.innerHTML = `
+    // Add aggressive print styles
+    const printStyle = document.createElement('style');
+    printStyle.id = 'print-styles';
+    printStyle.textContent = `
       @media print {
-        * {
+        body, html {
+          width: 100%;
+          height: 100%;
+          margin: 0;
+          padding: 0;
+          overflow: visible;
+        }
+        body * {
           visibility: hidden !important;
         }
         #resume-preview,
         #resume-preview * {
           visibility: visible !important;
-        }
-        body {
-          margin: 0 !important;
-          padding: 0 !important;
-          background: white !important;
+          display: inherit !important;
         }
         #resume-preview {
           position: absolute;
@@ -114,8 +119,16 @@ const ResumeBuilder = () => {
         }
       }
     `;
-    document.head.appendChild(style);
+    document.head.appendChild(printStyle);
+    
+    // Trigger print
     window.print();
+    
+    // Cleanup
+    setTimeout(() => {
+      const style = document.getElementById('print-styles');
+      if (style) style.remove();
+    }, 1000);
   }
 
   const saveResume = async() => {

@@ -20,41 +20,63 @@ const ResumePreview = ({ data, template, accentColor, classes = "" }) => {
   };
 
   return (
-    <div className="w-full bg-gray-100 px-2 sm:px-4 print:bg-white print:p-0">
-      <div
-        id="resume-preview"
-        className={
-          "border border-gray-200 print:shadow-none print:border-none mx-auto max-w-4xl print:mx-0 print:rounded-none" + classes
-        }
-      >
-        {renderTemplate()}
+    <>
+      <div className="w-full bg-gray-100 px-2 sm:px-4">
+        <div
+          id="resume-preview"
+          className={
+            "border border-gray-200 print:shadow-none print:border-none mx-auto max-w-4xl" + classes
+          }
+        >
+          {renderTemplate()}
+        </div>
       </div>
-
       <style>{`
+        @page {
+          size: letter;
+          margin: 0;
+          padding: 0;
+        }
         @media print {
-          body, html {
+          body {
             margin: 0 !important;
             padding: 0 !important;
-            width: 100% !important;
+            width: 100%;
+            height: 100%;
+          }
+          html {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100%;
+            height: 100%;
           }
           body > * {
+            visibility: hidden !important;
             display: none !important;
           }
           #resume-preview {
+            visibility: visible !important;
             display: block !important;
-            width: 100%;
+            position: absolute !important;
+            left: 0 !important;
+            top: 0 !important;
+            width: 100% !important;
+            height: auto !important;
             margin: 0 !important;
             padding: 0 !important;
             border: none !important;
-            page-break-after: avoid !important;
-            background: white !important;
             box-shadow: none !important;
-            max-width: 100% !important;
+            background: white !important;
+            page-break-after: avoid !important;
+            max-width: none !important;
+          }
+          #resume-preview * {
+            visibility: visible !important;
+            page-break-inside: avoid !important;
           }
         }
-      `}
-      </style>
-    </div>
+      `}</style>
+    </>
   );
 };
 
