@@ -91,29 +91,7 @@ const ResumeBuilder = () => {
   }
 
   const downloadResume = () => {
-    // Prepare print styles
-    const style = document.createElement('style');
-    style.textContent = `
-      @media print {
-        body {
-          width: 8.5in;
-          margin: 0;
-          padding: 0;
-        }
-        * {
-          margin: 0;
-          padding: 0;
-        }
-      }
-    `;
-    document.head.appendChild(style);
-    
-    // Trigger print
-    setTimeout(() => {
-      window.print();
-      // Remove style after printing
-      setTimeout(() => document.head.removeChild(style), 500);
-    }, 100);
+    window.print();
   }
 
   const saveResume = async() => {

@@ -38,63 +38,37 @@ const ResumePreview = ({ data, template, accentColor, classes = "" }) => {
         }
         @media print {
           * {
-            margin: 0 !important;
-            padding: 0 !important;
-            border: none !important;
-            line-height: 1 !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            color-adjust: exact !important;
           }
-          html {
+          html, body {
+            width: 100%;
+            height: 100%;
             margin: 0 !important;
             padding: 0 !important;
-            width: 8.5in !important;
-            height: auto !important;
-          }
-          body {
-            margin: 0 !important;
-            padding: 0 !important;
-            width: 8.5in !important;
-            height: auto !important;
-            overflow: visible !important;
           }
           body > * {
             display: none !important;
-            visibility: hidden !important;
+          }
+          body > #resume-preview {
+            display: block !important;
           }
           #resume-preview {
             display: block !important;
-            visibility: visible !important;
-            position: static !important;
-            width: 8.5in !important;
+            width: 100%;
             height: auto !important;
             margin: 0 !important;
             padding: 0 !important;
             box-shadow: none !important;
             border: none !important;
             page-break-after: avoid !important;
-            page-break-before: avoid !important;
             background: white !important;
-            overflow: visible !important;
           }
           #resume-preview * {
-            margin: 0 !important;
-            padding: 0 !important;
             page-break-inside: avoid !important;
-            background-clip: border-box !important;
-            line-height: inherit !important;
-          }
-          /* Remove all spacing classes in print */
-          div, section, article, header, footer, main, nav {
-            margin: 0 !important;
-            padding: 0 !important;
-            page-break-inside: avoid !important;
-          }
-          p {
-            margin: 0 !important;
-            padding: 0 !important;
-          }
-          img {
-            max-width: 100%;
-            height: auto;
+            widows: 3;
+            orphans: 3;
           }
         }
       `}
