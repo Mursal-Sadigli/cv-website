@@ -28,30 +28,38 @@ const ResumePreview = ({ data, template, accentColor, classes = "" }) => {
         padding: 0;
       }
       @media print {
-        body > * {
-          display: none !important;
+        * {
+          visibility: hidden;
+        }
+        #resume-preview,
+        #resume-preview * {
+          visibility: visible !important;
         }
         #resume-preview {
-          display: block !important;
-          visibility: visible !important;
-          width: 100% !important;
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: auto;
           margin: 0 !important;
           padding: 0 !important;
-          max-width: 100% !important;
           border: none !important;
           background: white !important;
-        }
-        #resume-preview * {
           page-break-inside: avoid !important;
-          margin: 0 !important;
-          padding: 0 !important;
+        }
+        body {
+          margin: 0;
+          padding: 0;
+          width: 100%;
         }
       }
     `;
     document.head.appendChild(style);
     
     return () => {
-      document.head.removeChild(style);
+      if (document.head.contains(style)) {
+        document.head.removeChild(style);
+      }
     };
   }, []);
 
