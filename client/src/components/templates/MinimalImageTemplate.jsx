@@ -17,12 +17,12 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
                 <div className="col-span-1 py-6 sm:py-10 flex sm:block flex-col items-center">
                     {data.personal_info?.image && typeof data.personal_info.image === 'string' ? (
                         <div className="mb-4 sm:mb-6">
-                            <img src={data.personal_info.image} alt="Profile" className="w-24 h-24 sm:w-32 sm:h-32 object-cover rounded-full" style={{ background: accentColor+'70' }} />
+                            <img src={data.personal_info.image} alt="Profile" className="w-24 h-24 sm:w-32 sm:h-32 object-contain rounded-full" style={{ background: accentColor+'70' }} />
                         </div>
                     ) : (
                         data.personal_info?.image && typeof data.personal_info.image === 'object' ? (
                             <div className="mb-4 sm:mb-6">
-                                <img src={URL.createObjectURL(data.personal_info.image)} alt="Profile" className="w-24 h-24 sm:w-32 sm:h-32 object-cover rounded-full" />
+                                <img src={URL.createObjectURL(data.personal_info.image)} alt="Profile" className="w-24 h-24 sm:w-32 sm:h-32 object-contain rounded-full" />
                             </div>
                         ) : null
                     )}
