@@ -16,13 +16,13 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-0 px-4 sm:px-0">
                 <div className="col-span-1 py-6 sm:py-10 flex sm:block flex-col items-center">
                     {data.personal_info?.image && typeof data.personal_info.image === 'string' ? (
-                        <div className="mb-4 sm:mb-6">
-                            <img src={data.personal_info.image} alt="Profile" className="w-24 h-24 sm:w-32 sm:h-32 object-contain rounded-full" style={{ background: accentColor+'70' }} />
+                        <div className="mb-4 sm:mb-6 w-24 h-24 sm:w-32 sm:h-32 flex items-center justify-center rounded-full overflow-hidden" style={{ background: accentColor+'70' }}>
+                            <img src={data.personal_info.image} alt="Profile" className="w-full h-full object-cover" />
                         </div>
                     ) : (
                         data.personal_info?.image && typeof data.personal_info.image === 'object' ? (
-                            <div className="mb-4 sm:mb-6">
-                                <img src={URL.createObjectURL(data.personal_info.image)} alt="Profile" className="w-24 h-24 sm:w-32 sm:h-32 object-contain rounded-full" />
+                            <div className="mb-4 sm:mb-6 w-24 h-24 sm:w-32 sm:h-32 flex items-center justify-center rounded-full overflow-hidden">
+                                <img src={URL.createObjectURL(data.personal_info.image)} alt="Profile" className="w-full h-full object-cover" />
                             </div>
                         ) : null
                     )}
