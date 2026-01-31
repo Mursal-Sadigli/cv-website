@@ -51,12 +51,10 @@ const ResumePreview = ({ data, template, accentColor, classes = "" }) => {
           }
 
           body > * {
-            visibility: hidden;
-            display: none;
+            display: none !important;
           }
 
           #resume-preview {
-            visibility: visible !important;
             display: block !important;
             position: static !important;
             width: 100% !important;
@@ -70,7 +68,6 @@ const ResumePreview = ({ data, template, accentColor, classes = "" }) => {
           }
 
           #resume-preview * {
-            visibility: visible !important;
             page-break-inside: avoid !important;
           }
         }
