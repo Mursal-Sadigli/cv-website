@@ -91,6 +91,30 @@ const ResumeBuilder = () => {
   }
 
   const downloadResume = () => {
+    const style = document.createElement('style');
+    style.innerHTML = `
+      @media print {
+        * {
+          visibility: hidden !important;
+        }
+        #resume-preview,
+        #resume-preview * {
+          visibility: visible !important;
+        }
+        body {
+          margin: 0 !important;
+          padding: 0 !important;
+          background: white !important;
+        }
+        #resume-preview {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+        }
+      }
+    `;
+    document.head.appendChild(style);
     window.print();
   }
 

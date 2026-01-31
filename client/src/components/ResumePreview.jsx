@@ -24,51 +24,32 @@ const ResumePreview = ({ data, template, accentColor, classes = "" }) => {
       <div
         id="resume-preview"
         className={
-          "border border-gray-200 print:shadow-none print:border-none mx-auto max-w-4xl print:mx-0" + classes
+          "border border-gray-200 print:shadow-none print:border-none mx-auto max-w-4xl print:mx-0 print:rounded-none" + classes
         }
       >
         {renderTemplate()}
       </div>
 
       <style>{`
-        @page {
-          size: letter;
-          margin: 0;
-          padding: 0;
-        }
         @media print {
-          * {
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-            color-adjust: exact !important;
-          }
-          html, body {
-            width: 100%;
-            height: 100%;
+          body, html {
             margin: 0 !important;
             padding: 0 !important;
+            width: 100% !important;
           }
           body > * {
             display: none !important;
           }
-          body > #resume-preview {
-            display: block !important;
-          }
           #resume-preview {
             display: block !important;
             width: 100%;
-            height: auto !important;
             margin: 0 !important;
             padding: 0 !important;
-            box-shadow: none !important;
             border: none !important;
             page-break-after: avoid !important;
             background: white !important;
-          }
-          #resume-preview * {
-            page-break-inside: avoid !important;
-            widows: 3;
-            orphans: 3;
+            box-shadow: none !important;
+            max-width: 100% !important;
           }
         }
       `}
