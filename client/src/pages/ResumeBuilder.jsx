@@ -91,7 +91,23 @@ const ResumeBuilder = () => {
   }
 
   const downloadResume = () => {
+    // Add print media styles to prevent empty pages
+    const printStyle = document.createElement('style');
+    printStyle.textContent = `
+      @media print {
+        body { margin: 0; padding: 0; }
+        body > * { display: none !important; }
+        #resume-preview { display: block !important; }
+      }
+    `;
+    document.head.appendChild(printStyle);
+    
     window.print();
+    
+    // Clean up after print dialog closes
+    setTimeout(() => {
+      document.head.removeChild(printStyle);
+    }, 1000);
   }
 
   const saveResume = async() => {
