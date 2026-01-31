@@ -38,30 +38,35 @@ const ResumePreview = ({ data, template, accentColor, classes = "" }) => {
         @media print {
           html,
           body {
-            width: 8.5in;
-            height: 11in;
-            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            overflow: visible;
           }
           body * {
             visibility: hidden;
           }
           #resume-preview,
           #resume-preview * {
-              visibility: visible;
-            }
-            #resume-preview {
-              position: absolute;
-              left: 0;
-              top: 0;
-              width: 100%;
-              height: auto;
-              margin: 0;
-              padding: 0;
-              box-shadow: none !important;
-              border: none !important;
-            }
+            visibility: visible;
           }
-        `}
+          #resume-preview {
+            position: relative;
+            width: 8.5in;
+            margin: 0;
+            padding: 0;
+            box-shadow: none !important;
+            border: none !important;
+            page-break-after: auto;
+          }
+        }
+        
+        /* Prevent breaking inside sections */
+        @media print {
+          div, section, article {
+            page-break-inside: avoid;
+          }
+        }
+      `}
       </style>
     </div>
   );
