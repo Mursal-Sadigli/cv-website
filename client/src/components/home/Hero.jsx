@@ -25,10 +25,10 @@ const Hero = () => {
                     </a>
 
                     <div className="hidden md:flex items-center gap-8 transition duration-500 text-slate-800">
-                        <a href="#" className="hover:text-green-600 transition">Home</a>
-                        <a href="#features" className="hover:text-green-600 transition">Features</a>
-                        <a href="#testimonials" className="hover:text-green-600 transition">Testimonials</a>
-                        <a href="#cta" className="hover:text-green-600 transition">Contact</a>
+                        <a href="#" className="hover:text-green-600 transition">Ana səhifə</a>
+                        <a href="#features" className="hover:text-green-600 transition">Xüsusiyyətlər</a>
+                        <a href="#testimonials" className="hover:text-green-600 transition">Rəylər</a>
+                        <a href="#cta" className="hover:text-green-600 transition">Əlaqə</a>
                     </div>
 
                     <div className="flex gap-2">
