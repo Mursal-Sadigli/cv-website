@@ -9,42 +9,73 @@ const Preview = () => {
   const {resumeId} = useParams()
   const [isLoading, setIsLoading] = useState(true)
   const [resumeData, setResumeData] = useState(null)
+  const [error, setError] = useState(null)
 
   const loadResume = async () => {
     try {
+      setIsLoading(true)
       const {data} = await api.get(`/api/resumes/public/${resumeId}`)
-      setResumeData(data.resume)
-      console.log('Resume loaded:', data.resume)
+      if(data && data.resume){
+        setResumeData(data.resume)
+        console.log('Resume loaded:', data.resume)
+      } else {
+        setError('CV məlumatı tapılmadı')
+      }
     } catch (error) {
       console.error('Error loading resume:', error.message)
-    }finally{
+      setError(error?.response?.data?.message || 'CV yüklənərkən xəta baş verdi')
+    } finally{
       setIsLoading(false)
     }
   }
 
   useEffect(() => {
-    loadResume()
-  }, [])
+    if(resumeId){
+      loadResume()
+    }
+  }, [resumeId])
 
-  return resumeData ? (
-    <div className='bg-slate-100'>
-      <div className='max-w-3xl mx-auto py-10'>
-        <ResumePreview data={resumeData} template={resumeData.template} accentColor={resumeData.accent_color}
-        classes='py-4 bg-white' />
-      </div>
-    </div>
-  ) : (
-    <div>
-      {isLoading ? <Loader /> : (
-        <div className='flex flex-col items-center justify-center h-screen'>
-          <p className='text-center text-6xl text-slate-400 font-medium'>CV tapılmadı.</p>
-          <a href='/app' className='mt-6 bg-green-500 hover:bg-green-600 text-white rounded-full px-6 h-9 m-1 ring-offset-1 ring-1 ring-green-400 flex items-center transition-colors'>
-            <ArrowLeftIcon className='mr-2 size-4' />
-            ana səhifəyə qayıdın
-          </a>
+  return (
+    <>
+      {isLoading ? (
+        <div className='flex items-center justify-center h-screen'>
+          <Loader className='animate-spin size-8 text-green-500' />
+        </div>
+      ) : error ? (
+        <div className='flex flex-col items-center justify-center min-h-screen bg-gray-50'>
+          <div className="sm:w-[350px] w-full text-center border border-gray-300/60 rounded-2xl px-8 bg-white py-10">
+            <h1 className="text-gray-900 text-3xl font-medium">Xəta</h1>
+            <p className="text-gray-500 text-sm mt-2">{error}</p>
+            <a href='/app' className='mt-6 inline-block bg-green-500 hover:bg-green-600 text-white rounded-full px-6 h-9 ring-offset-1 ring-1 ring-green-400 flex items-center justify-center transition-colors'>
+              <ArrowLeftIcon className='mr-2 size-4' />
+              ana səhifəyə qayıdın
+            </a>
+          </div>
+        </div>
+      ) : resumeData ? (
+        <div className='bg-slate-100 min-h-screen'>
+          <div className='max-w-3xl mx-auto py-10'>
+            <ResumePreview 
+              data={resumeData} 
+              template={resumeData.template || 'classic'} 
+              accentColor={resumeData.accent_color || '#3B82f6'}
+              classes='py-4 bg-white' 
+            />
+          </div>
+        </div>
+      ) : (
+        <div className='flex flex-col items-center justify-center min-h-screen bg-gray-50'>
+          <div className="sm:w-[350px] w-full text-center border border-gray-300/60 rounded-2xl px-8 bg-white py-10">
+            <h1 className="text-gray-900 text-3xl font-medium">Xəta</h1>
+            <p className="text-gray-500 text-sm mt-2">CV tapılmadı</p>
+            <a href='/app' className='mt-6 inline-block bg-green-500 hover:bg-green-600 text-white rounded-full px-6 h-9 ring-offset-1 ring-1 ring-green-400 flex items-center justify-center transition-colors'>
+              <ArrowLeftIcon className='mr-2 size-4' />
+              ana səhifəyə qayıdın
+            </a>
+          </div>
         </div>
       )}
-    </div>
+    </>
   )
 }
 

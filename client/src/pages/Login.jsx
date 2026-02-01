@@ -97,16 +97,16 @@ const Login = () => {
                 {state !== "login" && (
                     <div className="flex items-center mt-6 w-full bg-gray-50 border-2 border-gray-200 h-12 rounded-lg overflow-hidden px-4 gap-3 focus-within:bg-white focus-within:border-green-500 focus-within:shadow-md hover:bg-gray-50 hover:border-gray-300 transition-all duration-200">
                         <User2Icon size={16} color='#9CA3AF' className="flex-shrink-0" />
-                        <input autoFocus type="text" name="name" placeholder="Adınız" className="border-none outline-none ring-0 w-full bg-transparent focus:ring-0 placeholder:text-gray-400 text-gray-900" value={formData.name} onChange={handleChange} maxLength="50" required />
+                        <input autoFocus type="text" name="name" placeholder="Adınız" className="border-0 outline-0 ring-0 w-full bg-transparent focus:outline-0 focus:ring-0 focus-visible:ring-0 placeholder:text-gray-400 text-gray-900 appearance-none" value={formData.name} onChange={handleChange} maxLength="50" required />
                     </div>
                 )}
                 <div className="flex items-center w-full mt-6 bg-gray-50 border-2 border-gray-200 h-12 rounded-lg overflow-hidden px-4 gap-3 focus-within:bg-white focus-within:border-green-500 focus-within:shadow-md hover:bg-gray-50 hover:border-gray-300 transition-all duration-200">
                    <Mail size={13} color='#9CA3AF' className="flex-shrink-0" />
-                    <input autoFocus={state === "login"} type="email" name="email" placeholder="Email adresi" className="border-none outline-none ring-0 w-full bg-transparent focus:ring-0 placeholder:text-gray-400 text-gray-900" value={formData.email} onChange={handleChange} maxLength="100" required />
+                    <input autoFocus={state === "login"} type="email" name="email" placeholder="Email adresi" className="border-0 outline-0 ring-0 w-full bg-transparent focus:outline-0 focus:ring-0 focus-visible:ring-0 placeholder:text-gray-400 text-gray-900 appearance-none" value={formData.email} onChange={handleChange} maxLength="100" required />
                 </div>
                 <div className="flex items-center mt-4 w-full bg-gray-50 border-2 border-gray-200 h-12 rounded-lg overflow-hidden px-4 gap-3 focus-within:bg-white focus-within:border-green-500 focus-within:shadow-md hover:bg-gray-50 hover:border-gray-300 transition-all duration-200">
                     <Lock size={13} color='#9CA3AF' className="flex-shrink-0" />
-                    <input type={showPassword ? "text" : "password"} name="password" placeholder="Şifrəniz" className="border-none outline-none ring-0 w-full bg-transparent focus:ring-0 placeholder:text-gray-400 text-gray-900" value={formData.password} onChange={handleChange} maxLength="100" required />
+                    <input type={showPassword ? "text" : "password"} name="password" placeholder="Şifrəniz" className="border-0 outline-0 ring-0 w-full bg-transparent focus:outline-0 focus:ring-0 focus-visible:ring-0 placeholder:text-gray-400 text-gray-900 appearance-none" value={formData.password} onChange={handleChange} maxLength="100" required />
                     <button 
                         type="button" 
                         onClick={() => setShowPassword(!showPassword)}
@@ -131,7 +131,7 @@ const Login = () => {
             <p className="text-gray-500 text-sm mt-2">Şifrənizi sıfırlamaq üçün e-mailinizi daxil edin</p>
             <div className="flex items-center w-full mt-6 bg-gray-50 border-2 border-gray-200 h-12 rounded-lg overflow-hidden px-4 gap-3 focus-within:bg-white focus-within:border-green-500 focus-within:shadow-md hover:bg-gray-50 hover:border-gray-300 transition-all duration-200">
                <Mail size={13} color='#9CA3AF' className="flex-shrink-0" />
-                <input autoFocus type="email" placeholder="Email adresi" className="border-none outline-none ring-0 w-full bg-transparent focus:ring-0 placeholder:text-gray-400 text-gray-900" value={forgotEmail} onChange={(e) => setForgotEmail(e.target.value.trim())} maxLength="100" required />
+                <input autoFocus type="email" placeholder="Email adresi" className="border-0 outline-0 ring-0 w-full bg-transparent focus:outline-0 focus:ring-0 focus-visible:ring-0 placeholder:text-gray-400 text-gray-900 appearance-none" value={forgotEmail} onChange={(e) => setForgotEmail(e.target.value.trim())} maxLength="100" required />
             </div>
             <button type="submit" className="mt-6 w-full h-11 rounded-full text-white bg-green-500 hover:opacity-90 transition-opacity">
                 Göndər

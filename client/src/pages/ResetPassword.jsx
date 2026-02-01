@@ -85,7 +85,7 @@ const ResetPassword = () => {
                         type={showPassword ? "text" : "password"} 
                         name="newPassword" 
                         placeholder="Yeni şifrə" 
-                        className="border-none outline-none ring-0 w-full bg-transparent focus:ring-0 placeholder:text-gray-400 text-gray-900" 
+                        className="border-0 outline-0 ring-0 w-full bg-transparent focus:outline-0 focus:ring-0 focus-visible:ring-0 placeholder:text-gray-400 text-gray-900 appearance-none" 
                         value={formData.newPassword} 
                         onChange={handleChange}
                         maxLength="100"
@@ -107,7 +107,7 @@ const ResetPassword = () => {
                         type={showConfirmPassword ? "text" : "password"} 
                         name="confirmPassword" 
                         placeholder="Şifrəni təsdiq edin" 
-                        className="border-none outline-none ring-0 w-full bg-transparent focus:ring-0 placeholder:text-gray-400 text-gray-900" 
+                        className="border-0 outline-0 ring-0 w-full bg-transparent focus:outline-0 focus:ring-0 focus-visible:ring-0 placeholder:text-gray-400 text-gray-900 appearance-none" 
                         value={formData.confirmPassword} 
                         onChange={handleChange}
                         maxLength="100"
