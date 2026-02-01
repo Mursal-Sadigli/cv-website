@@ -65,7 +65,7 @@ const ResetPassword = () => {
                 <h1 className="text-gray-900 text-3xl mt-10 font-medium">Yeni Şifrə</h1>
                 <p className="text-gray-500 text-sm mt-2">Yeni şifrənizi daxil edin</p>
                 
-                <div className="flex items-center mt-6 w-full bg-white border border-gray-300/80 h-12 rounded-full overflow-hidden px-4 gap-2 focus-within:border-blue-500 focus-within:border-2">
+                <div className="flex items-center mt-6 w-full bg-white border-2 border-gray-300/0 h-12 rounded-full overflow-hidden px-4 gap-2 focus-within:border-blue-500">
                     <Lock size={13} color='#6B7280' className="flex-shrink-0" />
                     <input 
                         type="password" 
@@ -78,7 +78,7 @@ const ResetPassword = () => {
                     />
                 </div>
 
-                <div className="flex items-center mt-4 w-full bg-white border border-gray-300/80 h-12 rounded-full overflow-hidden px-4 gap-2 focus-within:border-blue-500 focus-within:border-2">
+                <div className="flex items-center mt-4 w-full bg-white border-2 border-gray-300/0 h-12 rounded-full overflow-hidden px-4 gap-2 focus-within:border-blue-500">
                     <Lock size={13} color='#6B7280' className="flex-shrink-0" />
                     <input 
                         type="password" 
