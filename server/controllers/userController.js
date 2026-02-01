@@ -2,7 +2,7 @@ import Resume from "../models/Resume.js";
 import User from "../models/User.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 
 const generateToken = (userId) => {
     const token = jwt.sign({userId}, process.env.JWT_SECRET, {expiresIn: '7d'})
@@ -183,39 +183,26 @@ export const forgotPassword = async(req, res) => {
         user.resetTokenExpiry = new Date(Date.now() + 3600000); // 1 hour from now
         await user.save();
 
-        // send email with reset link (async, don't wait)
-        const transporter = nodemailer.createTransport({
-            host: 'smtp.sendgrid.net',
-            port: 587,
-            secure: false,
-            auth: {
-                user: 'apikey',
-                pass: process.env.SENDGRID_API_KEY
-            }
-        });
-
         const resetUrl = `${process.env.CLIENT_URL}/reset-password?token=${resetToken}`;
 
-        const mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: email,
-            subject: 'Şifrə Sıfırlama Tələbi',
-            html: `
-                <h2>Şifrə Sıfırlama</h2>
-                <p>Siz şifrə sıfırlaması tələb etmisiniz.</p>
-                <p><a href="${resetUrl}">Şifrəni sıfırlamaq üçün buraya klikləyin</a></p>
-                <p>Bu link 1 saat müddətində etibarlı olacaqdır.</p>
-            `
-        };
-
-        // Send email without waiting
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.error('Email error:', error);
-            } else {
-                console.log('Email sent:', info.response);
-            }
-        });
+        // Send email with Resend
+        const resend = new Resend(process.env.RESEND_API_KEY);
+        
+        try {
+            await resend.emails.send({
+                from: 'noreply@resend.dev',
+                to: email,
+                subject: 'Şifrə Sıfırlama Tələbi',
+                html: `
+                    <h2>Şifrə Sıfırlama</h2>
+                    <p>Siz şifrə sıfırlaması tələb etmisiniz.</p>
+                    <p><a href="${resetUrl}">Şifrəni sıfırlamaq üçün buraya klikləyin</a></p>
+                    <p>Bu link 1 saat müddətində etibarlı olacaqdır.</p>
+                `
+            });
+        } catch (emailError) {
+            console.error('Email error:', emailError);
+        }
 
         return res.status(200).json({ message: 'Şifrə sıfırlama linki e-mailinizə göndərildi!' });
 
