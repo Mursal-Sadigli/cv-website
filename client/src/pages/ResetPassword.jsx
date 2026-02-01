@@ -70,8 +70,8 @@ const ResetPassword = () => {
                     <input 
                         type="password" 
                         name="newPassword" 
-                        placeholder="Yeni Şifrə" 
-                        className="border-none outline-none ring-0 w-full" 
+                        placeholder="Şifrə" 
+                        className="border-none outline-none ring-0 w-full text-sm" 
                         value={formData.newPassword} 
                         onChange={handleChange} 
                         required 
@@ -83,8 +83,8 @@ const ResetPassword = () => {
                     <input 
                         type="password" 
                         name="confirmPassword" 
-                        placeholder="Şifrəni Təsdiq Et" 
-                        className="border-none outline-none ring-0 w-full" 
+                        placeholder="Təsdiq et" 
+                        className="border-none outline-none ring-0 w-full text-sm" 
                         value={formData.confirmPassword} 
                         onChange={handleChange} 
                         required 
