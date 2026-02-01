@@ -64,15 +64,15 @@ const Dashboard = () => {
       
       toast.dismiss(loadingToast)
       
-      // Modal state reset
-      setTitle('')
-      setResume(null)
-      setShowUploadResume(false)
-      setIsLoading(false)
-      
-      // Small delay before navigation to ensure DOM is ready
+      // Delay before state reset and navigation to ensure React finishes modal cleanup
       setTimeout(async () => {
         try {
+          // Reset modal state FIRST
+          setTitle('')
+          setResume(null)
+          setShowUploadResume(false)
+          setIsLoading(false)
+          
           // Reload resumes
           const {data: resumesData} = await api.get('/api/users/resumes', {headers: {Authorization: token}})
           setAllResumes(resumesData.resumes)
@@ -81,6 +81,7 @@ const Dashboard = () => {
           navigate(`/app/builder/${data.resumeId}`)
         } catch (err) {
           console.error('Reload error:', err)
+          setIsLoading(false)
           toast.error('Resumes yükləmə xətası')
         }
       }, 300)
