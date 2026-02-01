@@ -63,18 +63,27 @@ const Dashboard = () => {
       const {data} = await api.post('/api/ai/upload-resume', {title, resumeText}, {headers: {Authorization: `Bearer ${token}`}})
       
       toast.dismiss(loadingToast)
-      toast.success('CV uğurla yükləndi!')
       
+      // Modal state reset
       setTitle('')
       setResume(null)
       setShowUploadResume(false)
       setIsLoading(false)
       
-      // Reload resumes
-      const {data: resumesData} = await api.get('/api/users/resumes', {headers: {Authorization: token}})
-      setAllResumes(resumesData.resumes)
-      
-      navigate(`/app/builder/${data.resumeId}`)
+      // Small delay before navigation to ensure DOM is ready
+      setTimeout(async () => {
+        try {
+          // Reload resumes
+          const {data: resumesData} = await api.get('/api/users/resumes', {headers: {Authorization: token}})
+          setAllResumes(resumesData.resumes)
+          
+          toast.success('CV uğurla yükləndi!')
+          navigate(`/app/builder/${data.resumeId}`)
+        } catch (err) {
+          console.error('Reload error:', err)
+          toast.error('Resumes yükləmə xətası')
+        }
+      }, 300)
     } catch (error) {
       console.error('Upload error:', error)
       toast.dismiss(loadingToast)
