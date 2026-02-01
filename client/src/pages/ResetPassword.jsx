@@ -71,7 +71,7 @@ const ResetPassword = () => {
                         type="password" 
                         name="newPassword" 
                         placeholder="Şifrə" 
-                        className="border-none outline-none ring-0 w-full bg-transparent" 
+                        className="border-none outline-none ring-0 w-full bg-transparent hover:bg-transparent" 
                         value={formData.newPassword} 
                         onChange={handleChange} 
                         required 
@@ -84,7 +84,7 @@ const ResetPassword = () => {
                         type="password" 
                         name="confirmPassword" 
                         placeholder="Təsdiq" 
-                        className="border-none outline-none ring-0 w-full bg-transparent" 
+                        className="border-none outline-none ring-0 w-full bg-transparent hover:bg-transparent" 
                         value={formData.confirmPassword} 
                         onChange={handleChange} 
                         required 
