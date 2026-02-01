@@ -51,18 +51,36 @@ const Dashboard = () => {
       toast.error('Zəhmət olmasa CV başlığını daxil edin')
       return
     }
+    
     setIsLoading(true)
+    const loadingToast = toast.loading('CV yüklənir... Zəhmət olmasa gözləyin')
+    
     try {
+      console.log('Starting PDF parsing...')
       const resumeText = await pdfToText(resume)
+      console.log('PDF parsed, sending to server...')
+      
       const {data} = await api.post('/api/ai/upload-resume', {title, resumeText}, {headers: {Authorization: `Bearer ${token}`}})
+      
+      toast.dismiss(loadingToast)
+      toast.success('CV uğurla yükləndi!')
+      
       setTitle('')
       setResume(null)
       setShowUploadResume(false)
+      setIsLoading(false)
+      
+      // Reload resumes
+      const {data: resumesData} = await api.get('/api/users/resumes', {headers: {Authorization: token}})
+      setAllResumes(resumesData.resumes)
+      
       navigate(`/app/builder/${data.resumeId}`)
     } catch (error) {
-      toast.error(error?.response?.data?.message || error.message)
+      console.error('Upload error:', error)
+      toast.dismiss(loadingToast)
+      setIsLoading(false)
+      toast.error(error?.response?.data?.message || 'CV yükləmə zamanı xəta oldu')
     }
-    setIsLoading(false)
   }
 
   const editTitle = async (event) => {
@@ -158,26 +176,41 @@ const Dashboard = () => {
                 <h2 className='text-xl font-bold mb-4'>CV-ni yükləyin</h2>
                 <input onChange={(e) => setTitle(e.target.value)} value={title} type='text' placeholder='CV başlığını daxil edin' className='w-full px-4 py-2 mb-4 focus:border-green-600 ring-green-600' required />
                 <div>
-                  <label htmlFor='resume-input' className='block text-sm text-slate-700'>
+                  <label htmlFor='resume-input' className='block text-sm text-slate-700 mb-2'>
                     CV faylını seçin
-                    <div className='flex flex-col items-center justify-center gap-2 border group text-slate-400 border-slate-400 border-dashed rounded-md p-4 py-10 my-4 hover:border-green-500 hover:text-green-700 cursor-pointer transition-colors'>
-                      {resume ? (
-                        <p className='text-green-700'>{resume.name}</p>
-                      ) : (
-                        <>
-                        <UploadCloud className='size-14 stroke-1' />
-                        <p>CV-ni yüklə</p>
-                        </>
-                      )}
-                    </div>
                   </label>
-                  <input type='file' id='resume-input' accept='.pdf' hidden onChange={(e) => setResume(e.target.files[0])} />
+                  <div 
+                    onClick={() => document.getElementById('resume-input')?.click()}
+                    className='flex flex-col items-center justify-center gap-2 border group text-slate-400 border-slate-400 border-dashed rounded-md p-4 py-10 hover:border-green-500 hover:text-green-700 cursor-pointer transition-colors'
+                  >
+                    {resume ? (
+                      <div className='text-center'>
+                        <p className='text-green-700 font-semibold'>{resume.name}</p>
+                        <p className='text-xs text-gray-500 mt-1'>Dəyişdirmək üçün klik edin</p>
+                      </div>
+                    ) : (
+                      <>
+                        <UploadCloud className='size-14 stroke-1' />
+                        <p className='font-semibold'>CV PDF faylını seçin</p>
+                        <p className='text-xs'>və ya buraya çəkin</p>
+                      </>
+                    )}
+                  </div>
+                  <input 
+                    type='file' 
+                    id='resume-input' 
+                    accept='.pdf' 
+                    style={{ display: 'none' }}
+                    onChange={(e) => setResume(e.target.files?.[0])} 
+                  />
                 </div>
-                <button disabled={isLoading} className='w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors flex items-center justify-center gap-2'>
+                <button 
+                  disabled={isLoading || !resume || !title.trim()} 
+                  className='w-full py-3 bg-green-600 text-white rounded hover:bg-green-700 disabled:bg-gray-400 transition-colors flex items-center justify-center gap-2 font-semibold'
+                >
                   {isLoading && <LoaderCircleIcon className='animate-spin size-4 text-white' />}
-                  {isLoading ? 'Yüklənir...' : 'CV-ni yüklə'}
-
-                  </button>
+                  {isLoading ? 'Yüklənir... Zəhmət olmasa gözləyin' : 'CV-ni Yüklə'}
+                </button>
                 <XIcon onClick={() => {setShowUploadResume(false); setTitle('')}} className='absolute top-4 right-4 text-slate-400 hover:text-slate-600 cursor-pointer transition-colors' />
               </div>
             </form>
