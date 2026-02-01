@@ -159,7 +159,7 @@ const Dashboard = () => {
           </div>
 
           {showCreateResume && (
-            <form onSubmit={createResume} onClick={() => setShowCreateResume(false)} className='fixed inset-0 bg-black/70 backdrop-blur bg-opacity-50 z-10 flex items-center justify-center'>
+            <form onSubmit={createResume} onClick={() => {setShowCreateResume(false); setTitle('')}} className='fixed inset-0 bg-black/70 backdrop-blur bg-opacity-50 z-10 flex items-center justify-center'>
               <div onClick={e => e.stopPropagation()} className='relative bg-slate-50 border shadow-md rounded-lg w-full max-w-sm p-6'>
                 <h2 className='text-xl font-bold mb-4'>CV yaradın</h2>
                 <input onChange={(e) => setTitle(e.target.value)} value={title} type='text' placeholder='CV başlığını daxil edin' className='w-full px-4 py-2 mb-4 focus:border-green-600 ring-green-600' required />
@@ -171,7 +171,7 @@ const Dashboard = () => {
           )}
 
           {showUploadResume && (
-              <form onSubmit={uploadResume} onClick={() => setShowUploadResume(false)} className='fixed inset-0 bg-black/70 backdrop-blur bg-opacity-50 z-10 flex items-center justify-center'>
+              <form onSubmit={uploadResume} onClick={() => {setShowUploadResume(false); setTitle(''); setResume(null)}} className='fixed inset-0 bg-black/70 backdrop-blur bg-opacity-50 z-10 flex items-center justify-center'>
               <div onClick={e => e.stopPropagation()} className='relative bg-slate-50 border shadow-md rounded-lg w-full max-w-sm p-6'>
                 <h2 className='text-xl font-bold mb-4'>CV-ni yükləyin</h2>
                 <input onChange={(e) => setTitle(e.target.value)} value={title} type='text' placeholder='CV başlığını daxil edin' className='w-full px-4 py-2 mb-4 focus:border-green-600 ring-green-600' required />
@@ -211,7 +211,7 @@ const Dashboard = () => {
                   {isLoading && <LoaderCircleIcon className='animate-spin size-4 text-white' />}
                   {isLoading ? 'Yüklənir... Zəhmət olmasa gözləyin' : 'CV-ni Yüklə'}
                 </button>
-                <XIcon onClick={() => {setShowUploadResume(false); setTitle('')}} className='absolute top-4 right-4 text-slate-400 hover:text-slate-600 cursor-pointer transition-colors' />
+                <XIcon onClick={() => {setShowUploadResume(false); setTitle(''); setResume(null)}} className='absolute top-4 right-4 text-slate-400 hover:text-slate-600 cursor-pointer transition-colors' />
               </div>
             </form>
           )}
