@@ -12,7 +12,7 @@ const Layout = () => {
     return <Loader />
   }
   return (
-    <div>
+    <div className='transition-colors'>
       {
         user ? (
         <div className='min-h-screen bg-gray-50'>

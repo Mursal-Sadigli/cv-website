@@ -147,6 +147,30 @@ const ModernTemplate = ({ data, accentColor }) => {
 						</section>
 					)}
 
+					{/* Certification */}
+					{data.certification && data.certification.length > 0 && (
+						<section>
+							<h2 className="text-2xl font-light mb-4 pb-2 border-b border-gray-200">
+								Certifications
+							</h2>
+
+							<div className="space-y-4">
+								{data.certification.map((cert, index) => (
+									<div key={index}>
+										<h3 className="font-semibold text-gray-900">
+											{cert.name}
+										</h3>
+										<p style={{ color: accentColor }}>{cert.issuer}</p>
+										<div className="flex justify-between items-center text-sm text-gray-600">
+											<span>{formatDate(cert.issue_date)}</span>
+											{cert.credential_id && <span>ID: {cert.credential_id}</span>}
+										</div>
+									</div>
+								))}
+							</div>
+						</section>
+					)}
+
 					{/* Skills */}
 					{data.skills && data.skills.length > 0 && (
 						<section>

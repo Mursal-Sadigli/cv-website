@@ -151,3 +151,79 @@ ${resumeText}`;
     return res.status(error.response?.status || 400).json({message: error.response?.data?.error?.message || error.message})
   }
 }
+
+// controller for extracting keywords from job posting
+// POST: /api/ai/extract-keywords
+
+export const extractKeywords = async (req, res) => {
+  try {
+    const { jobPosting } = req.body;
+
+    console.log('📥 Extract Keywords Request - Received:', { hasJobPosting: !!jobPosting });
+
+    if (!jobPosting || jobPosting.trim().length === 0) {
+      return res.status(400).json({ message: "Job posting is required" });
+    }
+
+    console.log('🤖 Calling Groq API for keyword extraction...');
+
+    const response = await groqApi.post('/chat/completions', {
+      model: "llama-3.1-8b-instant",
+      messages: [
+        { 
+          role: "system", 
+          content: "You are an expert in extracting keywords and skills from job postings. Extract the most important keywords, technical skills, soft skills, tools, frameworks, and technologies from the job posting. Return ONLY a JSON array of keywords as strings, with no markdown blocks or additional text. Example: [\"React\", \"Node.js\", \"MongoDB\", \"Team Leadership\"]"
+        },
+        {
+          role: "user",
+          content: `Extract keywords and skills from this job posting:\n\n${jobPosting}`,
+        },
+      ],
+    });
+
+    console.log('✓ Groq API Response received');
+
+    const responseText = response.data.choices[0].message.content;
+    console.log('Raw response:', responseText.substring(0, 100) + '...');
+
+    // Remove markdown code blocks and clean the text
+    let cleanedText = responseText
+      .replace(/```json\n?|\n?```/g, '')
+      .replace(/```\n?|\n?```/g, '')
+      .trim();
+    
+    console.log('Cleaned text:', cleanedText.substring(0, 100) + '...');
+
+    // Extract JSON array if it's embedded in text
+    const jsonMatch = cleanedText.match(/\[\s*[\s\S]*?\s*\]/);
+    if (jsonMatch) {
+      cleanedText = jsonMatch[0];
+      console.log('Extracted JSON array');
+    }
+
+    let keywords = JSON.parse(cleanedText);
+    
+    // Ensure it's an array
+    if (!Array.isArray(keywords)) {
+      console.warn('⚠️  Response is not an array, converting...');
+      keywords = Object.values(keywords || {});
+    }
+
+    console.log('✓ Keywords extracted:', keywords.length, 'items');
+
+    return res.status(200).json({ keywords: Array.isArray(keywords) ? keywords : [] });
+  } catch (error) {
+    console.error('❌ Keyword extraction error:', error.message);
+    console.error('Error status:', error.response?.status);
+    console.error('Error data:', error.response?.data);
+    
+    // More informative error message
+    const errorMessage = error.response?.data?.error?.message 
+      || (error instanceof SyntaxError ? 'Invalid response format from AI' : error.message);
+    
+    return res.status(error.response?.status || 400).json({ 
+      message: errorMessage,
+      error: process.env.NODE_ENV === 'development' ? error.message : 'API Error'
+    });
+  }
+}

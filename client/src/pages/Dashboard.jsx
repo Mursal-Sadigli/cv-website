@@ -1,4 +1,4 @@
-import { FilePenLineIcon, LoaderCircleIcon, PencilIcon, PlusIcon, TrashIcon, UploadCloud, UploadCloudIcon, XIcon } from 'lucide-react'
+import { FilePenLineIcon, LoaderCircleIcon, PencilIcon, PlusIcon, TrashIcon, UploadCloud, UploadCloudIcon, XIcon, Sparkles } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { dummyResumeData } from '../assets/assets'
 import { useNavigate } from 'react-router-dom'
@@ -107,6 +107,10 @@ const Dashboard = () => {
             <button onClick={() => setShowUploadResume(true)} className='w-full bg-white sm:max-w-36 h-48 flex flex-col items-center justify-center rounded-lg gap-2 text-slate-600 border border-dashed border-slate-300 group hover:border-purple-500 hover:shadow-lg transition-all duration-300 cursor-pointer'>
               <UploadCloudIcon className='size-11 transition-all duration-300 p-2.5 bg-gradient-to-br from-purple-300 to-purple-500 text-white rounded-full' />
               <p className='text-sm group-hover:text-purple-600 transition-all'>Mövcud CV-ni yüklə</p>
+            </button>
+            <button onClick={() => navigate('/app/templates')} className='w-full bg-white sm:max-w-36 h-48 flex flex-col items-center justify-center rounded-lg gap-2 text-slate-600 border border-dashed border-slate-300 group hover:border-pink-500 hover:shadow-lg transition-all duration-300 cursor-pointer'>
+              <Sparkles className='size-11 transition-all duration-300 p-2.5 bg-gradient-to-br from-pink-300 to-pink-500 text-white rounded-full' />
+              <p className='text-sm group-hover:text-pink-600 transition-all'>Şablonlar</p>
             </button>
           </div>
 

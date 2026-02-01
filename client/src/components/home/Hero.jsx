@@ -17,18 +17,18 @@ const Hero = () => {
 
   return (
    <>
-            <div className="min-h-screen pb-20">
+            <div className="min-h-screen pb-20 dark:bg-gray-900 transition-colors">
                 {/* Navbar */}
-                <nav className="z-50 flex items-center justify-between w-full py-4 px-6 md:px-16 lg:px-24 xl:px-40 text-sm">
+                <nav className="z-50 flex items-center justify-between w-full py-4 px-6 md:px-16 lg:px-24 xl:px-40 text-sm dark:text-white transition-colors">
                     <a href="https://prebuiltui.com">
                        <img src='/logo.svg' alt='logo' className='h-11 w-auto' />
                     </a>
 
-                    <div className="hidden md:flex items-center gap-8 transition duration-500 text-slate-800">
-                        <a href="#" className="hover:text-green-600 transition">Ana səhifə</a>
-                        <a href="#features" className="hover:text-green-600 transition">Xüsusiyyətlər</a>
-                        <a href="#testimonials" className="hover:text-green-600 transition">Rəylər</a>
-                        <a href="#cta" className="hover:text-green-600 transition">Əlaqə</a>
+                    <div className="hidden md:flex items-center gap-8 transition duration-500 text-slate-800 dark:text-gray-300">
+                        <a href="#" className="hover:text-green-600 dark:hover:text-green-400 transition">Ana səhifə</a>
+                        <a href="#features" className="hover:text-green-600 dark:hover:text-green-400 transition">Xüsusiyyətlər</a>
+                        <a href="#testimonials" className="hover:text-green-600 dark:hover:text-green-400 transition">Rəylər</a>
+                        <a href="#cta" className="hover:text-green-600 dark:hover:text-green-400 transition">Əlaqə</a>
                     </div>
 
                     <div className="flex gap-2">
@@ -57,7 +57,7 @@ const Hero = () => {
                 </nav>
 
                 {/* Mobile Menu */}
-                <div className={`fixed inset-0 z-[100] bg-black/40 text-black backdrop-blur flex flex-col items-center justify-center text-lg gap-8 md:hidden transition-transform duration-300 ${menuOpen ? "translate-x-0" : "-translate-x-full"}`} >
+                <div className={`fixed inset-0 z-[100] bg-black/40 dark:bg-black/60 text-black backdrop-blur flex flex-col items-center justify-center text-lg gap-8 md:hidden transition-transform duration-300 ${menuOpen ? "translate-x-0" : "-translate-x-full"}`} >
                     <a href="#" className="text-white">Ana səhifə</a>
                     <a href="#features" className="text-white">Xüsusiyyətlər</a>
                     <a href="#testimonials" className="text-white">Rəylər</a>
@@ -68,7 +68,7 @@ const Hero = () => {
                 </div>
 
                 {/* Hero Section */}
-                <div className="relative flex flex-col items-center justify-center text-sm px-4 md:px-16 lg:px-24 xl:px-40 text-black">
+                <div className="relative flex flex-col items-center justify-center text-sm px-4 md:px-16 lg:px-24 xl:px-40 text-black transition-colors">
                     <div className="absolute top-28 xl:top-10 -z-10 left-1/4 size-72 sm:size-96 xl:size-120 2xl:size-132 bg-green-300 blur-[100px] opacity-30"></div>
 
                     {/* Avatars + Stars */}

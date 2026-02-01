@@ -8,14 +8,17 @@ const TemplateSelector = ({ selectedTemplate, onChange }) => {
     {
       id: "classic",
       name: "Klassik",
-      preview:
-        "Təmiz, ənənəvi CV formatı, aydın bölmələr və peşəkar şriftlərlə",
+      preview: "Təmiz, ənənəvi CV formatı, aydın bölmələr və peşəkar şriftlərlə",
+    },
+    {
+      id: "minimal",
+      name: "Minimal",
+      preview: "Ultra-təmiz dizayn, məzmununu ön plana çıxarır",
     },
     {
       id: "modern",
       name: "Müasir",
-      preview:
-        "Rənglərin strateji istifadəsi və müasir şriftlərlə zərif dizayn",
+      preview: "Rənglərin strateji istifadəsi və müasir şriftlərlə zərif dizayn",
     },
     {
       id: "minimal-image",
@@ -23,9 +26,24 @@ const TemplateSelector = ({ selectedTemplate, onChange }) => {
       preview: "Minimal dizayn, tək bir şəkil və təmiz tipografiya",
     },
     {
-      id: "minimal",
-      name: "Minimal",
-      preview: "Ultra-təmiz dizayn, məzmununu ön plana çıxarır",
+      id: "modern-colorful",
+      name: "Rəngli Müasır",
+      preview: "Rənglərlə dolu, cəlbedici başlıq və sərhədli bölmələr",
+    },
+    {
+      id: "timeline",
+      name: "Zaman Xətti",
+      preview: "Zaman xətti ilə təqdimat, kronoloji yaradıcı görünüş",
+    },
+    {
+      id: "creative",
+      name: "Yaradıcı",
+      preview: "Yaradıcı tərəf layoutu, rəngli sidebar ilə iki sütunlu dizayn",
+    },
+    {
+      id: "professional",
+      name: "Professional",
+      preview: "Korporativ professional, rəsmi və təşkilatlı görünüş",
     },
   ];
 

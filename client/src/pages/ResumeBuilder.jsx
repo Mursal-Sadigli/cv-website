@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { dummyResumeData } from '../assets/assets'
-import { ArrowLeftIcon, Briefcase, ChevronLeft, ChevronRight, DownloadIcon, EyeIcon, EyeOffIcon, FileText, FolderIcon, GraduationCap, Share2Icon, Sparkles, User } from 'lucide-react'
+import { ArrowLeftIcon, Briefcase, ChevronLeft, ChevronRight, DownloadIcon, EyeIcon, EyeOffIcon, FileText, FolderIcon, GraduationCap, Share2Icon, Sparkles, User, Award, Globe } from 'lucide-react'
 import PersonalInfoForm from '../components/PersonalInfoForm'
 import ResumePreview from '../components/ResumePreview'
 import TemplateSelector from '../components/TemplateSelector'
@@ -11,14 +11,21 @@ import ExperienceForm from '../components/ExperienceForm'
 import EducationForm from '../components/EducationForm'
 import ProjectForm from '../components/ProjectForm'
 import SkillsForm from '../components/SkillsForm'
-import { useSelector } from 'react-redux'
+import CertificationForm from '../components/CertificationForm'
+import LanguagesForm from '../components/LanguagesForm'
+import { useSelector, useDispatch } from 'react-redux'
 import api from '../configs/api'
 import toast from 'react-hot-toast'
+import { trackResumeCreated, trackTemplateUsed, trackDownload } from '../app/features/analyticsSlice'
+import { clearSelectedTemplate } from '../app/features/themeSlice'
 
 const ResumeBuilder = () => {
 
   const {resumeId} = useParams()
   const {token} = useSelector(state => state.auth)
+  const selectedTemplate = useSelector(state => state.theme?.selectedTemplate)
+  const selectedTemplateColor = useSelector(state => state.theme?.selectedTemplateColor)
+  const dispatch = useDispatch()
   const [resumeData, setResumeData] =useState({
     _id: '',
     title: '',
@@ -26,6 +33,8 @@ const ResumeBuilder = () => {
     professional_summary: "",
     experience: [],
     education: [],
+    certification: [],
+    languages: [],
     project: [],
     skills: [],
     template: "classic",
@@ -37,7 +46,11 @@ const ResumeBuilder = () => {
     try {
       const {data} = await api.get('/api/resumes/get/' + resumeId, {headers: {Authorization: `Bearer ${token}`}})
       if(data.resume){
-        setResumeData(data.resume)
+        setResumeData({
+          ...data.resume,
+          certification: data.resume.certification || [],
+          languages: data.resume.languages || []
+        })
         document.title = data.resume.title;
       }
     } catch (error) {
@@ -53,6 +66,8 @@ const ResumeBuilder = () => {
     {id: "summary", name: "Summary", icon: FileText},
     {id: "experience", name: "Experience", icon: Briefcase},
     {id: "education", name: "Education", icon: GraduationCap},
+    {id: "certification", name: "Certification", icon: Award},
+    {id: "languages", name: "Languages", icon: Globe},
     {id: "projects", name: "Projects", icon: FolderIcon},
     {id: "skills", name: "Skills", icon: Sparkles},
   ]
@@ -61,6 +76,19 @@ const ResumeBuilder = () => {
 
   useEffect(() => {
     loadExistingResume()
+    
+    // Əgər Template Gallery-dən template seçilibsə, onu tətbiq et
+    if (selectedTemplate) {
+      setResumeData(prev => ({
+        ...prev,
+        template: selectedTemplate,
+        accent_color: selectedTemplateColor || '#3B82f6'
+      }))
+      // Tətbiq edildikdən sonra clear et
+      setTimeout(() => {
+        dispatch(clearSelectedTemplate())
+      }, 100)
+    }
   }, [resumeId])
 
   const changeResumeVisibility = async () => {
@@ -91,6 +119,7 @@ const ResumeBuilder = () => {
   }
 
   const downloadResume = () => {
+    dispatch(trackDownload());
     window.print();
   }
 
@@ -123,8 +152,29 @@ const ResumeBuilder = () => {
       const {data} = await api.put('/api/resumes/update', formData, {headers: {Authorization: `Bearer ${token}`}})
 
       console.log("Response data:", data);
+      console.log("Server certification data:", data.resume?.certification);
+      console.log("Local certification data before merge:", resumeData.certification);
       
-      setResumeData(data.resume)
+      // Track resume creation if new
+      if (!resumeId) {
+        dispatch(trackResumeCreated());
+      }
+      
+      // Merge server response with local state to preserve certification and other fields
+      const mergedData = {
+        ...resumeData,
+        ...data.resume,
+        certification: data.resume?.certification || resumeData.certification || [],
+        languages: data.resume?.languages || resumeData.languages || [],
+        personal_info: {
+          ...resumeData.personal_info,
+          ...data.resume?.personal_info
+        }
+      };
+      
+      console.log("Merged certification data:", mergedData.certification);
+      console.log("Merged certification with URL details:", JSON.stringify(mergedData.certification, null, 2));
+      setResumeData(mergedData)
       return {message: data.message}
     } catch (error) {
       console.log("Error in saveResume:", error);
@@ -155,7 +205,10 @@ const ResumeBuilder = () => {
               <div className='flex justify-between items-center mb-6 border-b border-gray-300 py-1'>
 
                 <div className='flex items-center gap-2'>
-                  <TemplateSelector selectedTemplate={resumeData.template} onChange={(template) => setResumeData(prev => ({...prev, template}))} />
+                  <TemplateSelector selectedTemplate={resumeData.template} onChange={(template) => {
+                    setResumeData(prev => ({...prev, template}))
+                    dispatch(trackTemplateUsed(template))
+                  }} />
                     <ColorPicker selectedColor={resumeData.accent_color} onChange={(color) => setResumeData(prev => ({...prev, accent_color: color}))} />
                 </div>
 
@@ -185,8 +238,14 @@ const ResumeBuilder = () => {
                  {activeSection.id === 'experience' && (
                   <ExperienceForm data={resumeData.experience} onChange={(data) => setResumeData(prev => ({...prev, experience: data}))} />
                 )}
-                 {activeSection.id === 'education' && (
+                {activeSection.id === 'education' && (
                   <EducationForm data={resumeData.education} onChange={(data) => setResumeData(prev => ({...prev, education: data}))} />
+                )}
+                {activeSection.id === 'certification' && (
+                  <CertificationForm data={resumeData.certification} onChange={(data) => setResumeData(prev => ({...prev, certification: data}))} />
+                )}
+                {activeSection.id === 'languages' && (
+                  <LanguagesForm data={resumeData.languages} onChange={(data) => setResumeData(prev => ({...prev, languages: data}))} />
                 )}
                 {activeSection.id === 'projects' && (
                   <ProjectForm data={resumeData.project} onChange={(data) => setResumeData(prev => ({...prev, project: data}))} />

@@ -147,6 +147,37 @@ const ModernTemplate = ({ data, accentColor }) => {
 						</section>
 					)}
 
+					{/* Certifications */}
+					{data.certification && data.certification.length > 0 && (
+						<section>
+							<h2 className="text-2xl font-light mb-4 pb-2 border-b border-gray-200">
+								Certifications
+							</h2>
+
+							<div className="space-y-4">
+								{data.certification.map((cert, index) => (
+									<div key={index}>
+										<h3 className="font-semibold text-gray-900">
+											{cert.name}
+										</h3>
+										<p style={{ color: accentColor }}>{cert.issuer}</p>
+										<div className="text-sm text-gray-600">
+											<p>{formatDate(cert.issue_date)}</p>
+											{cert.credential_id && <p>ID: {cert.credential_id}</p>}
+											{cert.credential_url && (
+												<a href={cert.credential_url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline break-all">
+													{cert.credential_url}
+												</a>
+											)}
+										</div>
+									</div>
+								))}
+							</div>
+						</section>
+					)}
+				</div>
+
+				<div className="grid sm:grid-cols-2 gap-8 mt-8">
 					{/* Skills */}
 					{data.skills && data.skills.length > 0 && (
 						<section>
@@ -163,6 +194,26 @@ const ModernTemplate = ({ data, accentColor }) => {
 									>
 										{skill}
 									</span>
+								))}
+							</div>
+						</section>
+					)}
+
+					{/* Languages */}
+					{data.languages && data.languages.length > 0 && (
+						<section>
+							<h2 className="text-2xl font-light mb-4 pb-2 border-b border-gray-200">
+								Languages
+							</h2>
+
+							<div className="space-y-4">
+								{data.languages.map((lang, index) => (
+									<div key={index}>
+										<h3 className="font-semibold text-gray-900">
+											{lang.language}
+										</h3>
+										<p style={{ color: accentColor }}>{lang.proficiency}</p>
+									</div>
 								))}
 							</div>
 						</section>

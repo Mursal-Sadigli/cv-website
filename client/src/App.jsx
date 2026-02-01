@@ -1,18 +1,21 @@
 import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import Home from "./pages/Home";
 import Layout from "./pages/Layout";
 import Dashboard from "./pages/Dashboard";
 import ResumeBuilder from "./pages/ResumeBuilder";
 import Preview from "./pages/Preview";
 import Login from "./pages/Login";
-import { useDispatch } from "react-redux";
+import Analytics from "./pages/Analytics";
+import TemplateGallery from "./pages/TemplateGallery";
 import api from "./configs/api";
 import { login, setLoading } from "./app/features/authSlice";
 import {Toaster} from 'react-hot-toast'
 
 const App = () => {
   const dispatch = useDispatch()
+  
   const getUserData = async() => {
     const token = localStorage.getItem('token')
     try {
@@ -44,6 +47,8 @@ const App = () => {
         <Route path="app" element={<Layout />}>
           <Route index element={<Dashboard />} />
           <Route path="builder/:resumeId" element={<ResumeBuilder />} />
+          <Route path="analytics" element={<Analytics />} />
+          <Route path="templates" element={<TemplateGallery />} />
         </Route>
 
         <Route path="view/:resumeId" element={<Preview />} />

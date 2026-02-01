@@ -104,6 +104,22 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
                             </ul>
                         </section>
                     )}
+
+                    {/* Languages */}
+                    {data.languages && data.languages.length > 0 && (
+                        <section className="mt-6">
+                            <h2 className="text-sm font-semibold tracking-widest text-zinc-600 mb-3">
+                                LANGUAGES
+                            </h2>
+                            <ul className="space-y-1 text-sm">
+                                {data.languages.map((lang, index) => (
+                                    <li key={index}>
+                                        <span className="font-medium">{lang.language}</span> - {lang.proficiency}
+                                    </li>
+                                ))}
+                            </ul>
+                        </section>
+                    )}
                 </aside>
 
                 {/* Right Content */}
@@ -174,6 +190,34 @@ const MinimalImageTemplate = ({ data, accentColor }) => {
                                                     <li key={i}>{line}</li>
                                                 ))}
                                             </ul>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    {/* Certification */}
+                    {data.certification && data.certification.length > 0 && (
+                        <section>
+                            <h2 className="text-sm uppercase tracking-widest font-semibold mt-6" style={{ color: accentColor }}>
+                                CERTIFICATIONS
+                            </h2>
+                            <div className="space-y-3 mt-4">
+                                {data.certification.map((cert, index) => (
+                                    <div key={index}>
+                                        <h3 className="font-semibold text-zinc-900">{cert.name}</h3>
+                                        <p className="text-sm mb-1" style={{ color: accentColor }} >
+                                            {cert.issuer}
+                                        </p>
+                                        <p className="text-xs text-zinc-500">
+                                            {formatDate(cert.issue_date)}
+                                            {cert.credential_id && ` • ID: ${cert.credential_id}`}
+                                        </p>
+                                        {cert.credential_url && (
+                                            <a href={cert.credential_url} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 hover:underline break-all">
+                                                {cert.credential_url}
+                                            </a>
                                         )}
                                     </div>
                                 ))}

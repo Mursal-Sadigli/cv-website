@@ -138,6 +138,59 @@ const ClassicTemplate = ({ data, accentColor }) => {
                 </section>
             )}
 
+            {/* Certification */}
+            {data.certification && data.certification.length > 0 && (
+                <section className="mb-6">
+                    <h2 className="text-xl font-semibold mb-4" style={{ color: accentColor }}>
+                        CERTIFICATIONS
+                    </h2>
+
+                    <div className="space-y-3">
+                        {data.certification.map((cert, index) => (
+                            <div key={index} className="flex justify-between items-start">
+                                <div>
+                                    <h3 className="font-semibold text-gray-900">
+                                        {cert.name}
+                                    </h3>
+                                    <p className="text-gray-700">{cert.issuer}</p>
+                                    {cert.credential_id && <p className="text-sm text-gray-600">ID: {cert.credential_id}</p>}
+                                    {cert.credential_url && (
+                                        <a href={cert.credential_url} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-600 hover:text-blue-800 underline break-all">
+                                            {cert.credential_url}
+                                        </a>
+                                    )}
+                                </div>
+                                <div className="text-sm text-gray-600">
+                                    <p>{formatDate(cert.issue_date)}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            )}
+
+            {/* Languages */}
+            {data.languages && data.languages.length > 0 && (
+                <section className="mb-6">
+                    <h2 className="text-xl font-semibold mb-4" style={{ color: accentColor }}>
+                        LANGUAGES
+                    </h2>
+
+                    <div className="space-y-3">
+                        {data.languages.map((lang, index) => (
+                            <div key={index} className="flex justify-between items-start">
+                                <div>
+                                    <h3 className="font-semibold text-gray-900">
+                                        {lang.language}
+                                    </h3>
+                                    <p className="text-gray-700">{lang.proficiency}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            )}
+
             {/* Skills */}
             {data.skills && data.skills.length > 0 && (
                 <section className="mb-6">
