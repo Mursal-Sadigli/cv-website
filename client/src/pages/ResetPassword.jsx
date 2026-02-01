@@ -77,13 +77,13 @@ const ResetPassword = () => {
                 <h1 className="text-gray-900 text-3xl mt-10 font-medium">Yeni Şifrə</h1>
                 <p className="text-gray-500 text-sm mt-2">Yeni şifrənizi daxil edin</p>
                 
-                <div className="flex items-center mt-6 w-full bg-white border-2 border-gray-200 h-12 rounded-full overflow-hidden px-4 gap-3 focus-within:border-green-500 focus-within:shadow-sm hover:border-gray-300 transition-all duration-200">
-                    <Lock size={13} color='#9CA3AF' className="flex-shrink-0 transition-colors" />
+                <div className="flex items-center mt-6 w-full bg-gray-50 border-2 border-gray-200 h-12 rounded-lg overflow-hidden px-4 gap-3 focus-within:bg-white focus-within:border-green-500 focus-within:shadow-md hover:bg-gray-50 hover:border-gray-300 transition-all duration-200">
+                    <Lock size={13} color='#9CA3AF' className="flex-shrink-0" />
                     <input 
                         type="password" 
                         name="newPassword" 
                         placeholder="Yeni şifrə" 
-                        className="border-none outline-none ring-0 w-full bg-transparent focus:ring-0 placeholder:text-gray-350 text-gray-900 font-medium" 
+                        className="border-none outline-none ring-0 w-full bg-transparent focus:ring-0 placeholder:text-gray-400 text-gray-900" 
                         value={formData.newPassword} 
                         onChange={handleChange}
                         maxLength="100"
@@ -92,13 +92,13 @@ const ResetPassword = () => {
                     />
                 </div>
 
-                <div className="flex items-center mt-4 w-full bg-white border-2 border-gray-200 h-12 rounded-full overflow-hidden px-4 gap-3 focus-within:border-green-500 focus-within:shadow-sm hover:border-gray-300 transition-all duration-200">
-                    <Lock size={13} color='#9CA3AF' className="flex-shrink-0 transition-colors" />
+                <div className="flex items-center mt-4 w-full bg-gray-50 border-2 border-gray-200 h-12 rounded-lg overflow-hidden px-4 gap-3 focus-within:bg-white focus-within:border-green-500 focus-within:shadow-md hover:bg-gray-50 hover:border-gray-300 transition-all duration-200">
+                    <Lock size={13} color='#9CA3AF' className="flex-shrink-0" />
                     <input 
                         type="password" 
                         name="confirmPassword" 
                         placeholder="Şifrəni təsdiq edin" 
-                        className="border-none outline-none ring-0 w-full bg-transparent focus:ring-0 placeholder:text-gray-350 text-gray-900 font-medium" 
+                        className="border-none outline-none ring-0 w-full bg-transparent focus:ring-0 placeholder:text-gray-400 text-gray-900" 
                         value={formData.confirmPassword} 
                         onChange={handleChange}
                         maxLength="100"
