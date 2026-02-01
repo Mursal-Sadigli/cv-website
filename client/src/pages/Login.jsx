@@ -1,4 +1,4 @@
-import { Lock, Mail, User2Icon } from 'lucide-react'
+import { Lock, Mail, User2Icon, Eye, EyeOff } from 'lucide-react'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { login } from '../app/features/authSlice'
@@ -13,6 +13,7 @@ const Login = () => {
    const [state, setState] = React.useState(urlState || "login")
    const [showForgotPassword, setShowForgotPassword] = React.useState(false)
    const [forgotEmail, setForgotEmail] = React.useState('')
+   const [showPassword, setShowPassword] = React.useState(false)
 
   const [formData, setFormData] = React.useState({
         name: '',
@@ -23,25 +24,35 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         
+        // Trim values
+        const trimmedEmail = formData.email.trim()
+        const trimmedPassword = formData.password.trim()
+        const trimmedName = formData.name.trim()
+        
         // Validasiya
-        if (!formData.email.match(/^[\w\.-]+@[\w\.-]+\.\w+$/)) {
+        if (!trimmedEmail.match(/^[\w\.-]+@[\w\.-]+\.\w+$/)) {
             toast.error('E-mail düzgün formatda deyil')
             return
         }
         
-        if (formData.password.length < 6) {
+        if (trimmedPassword.length < 6) {
             toast.error('Şifrə ən azı 6 simvol olmalıdır')
             return
         }
         
-        if (state === "register" && !formData.name.trim()) {
+        if (state === "register" && !trimmedName) {
             toast.error('Ad boş ola bilməz')
             return
         }
         
         try {
             const endpoint = state === "login" ? "/api/users/login" : "/api/users/register"
-            const {data} = await api.post(endpoint, formData)
+            const {data} = await api.post(endpoint, {
+                ...formData,
+                email: trimmedEmail,
+                password: trimmedPassword,
+                name: trimmedName
+            })
             dispatch(login(data))
             localStorage.setItem('token', data.token)
             toast.success(data.message)
@@ -54,19 +65,21 @@ const Login = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target
-        setFormData(prev => ({ ...prev, [name]: value.trim() }))
+        setFormData(prev => ({ ...prev, [name]: value }))
     }
 
     const handleForgotPassword = async (e) => {
         e.preventDefault()
         
-        if (!forgotEmail.match(/^[\w\.-]+@[\w\.-]+\.\w+$/)) {
+        const trimmedEmail = forgotEmail.trim()
+        
+        if (!trimmedEmail.match(/^[\w\.-]+@[\w\.-]+\.\w+$/)) {
             toast.error('E-mail düzgün formatda deyil')
             return
         }
         
         try {
-            const { data } = await api.post('/api/users/forgot-password', { email: forgotEmail.trim() })
+            const { data } = await api.post('/api/users/forgot-password', { email: trimmedEmail })
             toast.success('Şifrə sıfırlama linki e-mailinizə göndərildi!')
             setShowForgotPassword(false)
             setForgotEmail('')
@@ -93,7 +106,14 @@ const Login = () => {
                 </div>
                 <div className="flex items-center mt-4 w-full bg-gray-50 border-2 border-gray-200 h-12 rounded-lg overflow-hidden px-4 gap-3 focus-within:bg-white focus-within:border-green-500 focus-within:shadow-md hover:bg-gray-50 hover:border-gray-300 transition-all duration-200">
                     <Lock size={13} color='#9CA3AF' className="flex-shrink-0" />
-                    <input type="password" name="password" placeholder="Şifrəniz" className="border-none outline-none ring-0 w-full bg-transparent focus:ring-0 placeholder:text-gray-400 text-gray-900" value={formData.password} onChange={handleChange} maxLength="100" required />
+                    <input type={showPassword ? "text" : "password"} name="password" placeholder="Şifrəniz" className="border-none outline-none ring-0 w-full bg-transparent focus:ring-0 placeholder:text-gray-400 text-gray-900" value={formData.password} onChange={handleChange} maxLength="100" required />
+                    <button 
+                        type="button" 
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="flex-shrink-0 text-gray-400 hover:text-gray-600 transition-colors"
+                    >
+                        {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                    </button>
                 </div>
                 {state === "login" && (
                 <div className="mt-4 text-left text-green-500">

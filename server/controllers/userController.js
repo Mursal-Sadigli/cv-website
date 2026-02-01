@@ -20,6 +20,17 @@ export const registerUser = async(req, res) => {
             return res.status(400).json({message: 'Tələb olunan sahələr mövcud deyil'})
         }
 
+        // Validate email format
+        const emailRegex = /^[\w\.-]+@[\w\.-]+\.\w+$/
+        if(!emailRegex.test(email)){
+            return res.status(400).json({message: 'E-mail düzgün formatda deyil'})
+        }
+
+        // Validate password strength
+        if(password.length < 6){
+            return res.status(400).json({message: 'Şifrə ən azı 6 simvol olmalıdır'})
+        }
+
         // check if user already exists
         const user = await User.findOne({email})
         if(user){
@@ -29,7 +40,7 @@ export const registerUser = async(req, res) => {
         // create new user
         const hashedPassword = await bcrypt.hash(password, 10)
         const newUser = await User.create({
-            name, email, password: hashedPassword
+            name: name.trim(), email: email.trim(), password: hashedPassword
         })
 
         // return success message
@@ -51,8 +62,13 @@ export const loginUser = async(req, res) => {
     try {
         const {email, password} = req.body;
 
+        // Validate inputs
+        if(!email || !password){
+            return res.status(400).json({message: 'E-mail və şifrə lazımdır'})
+        }
+
         // check if user exists
-        const user = await User.findOne({email})
+        const user = await User.findOne({email: email.trim().toLowerCase()})
         if(!user){
             return res.status(400).json({message: 'Yanlış e-mail və ya şifrə'})
         }
@@ -169,8 +185,18 @@ export const forgotPassword = async(req, res) => {
     try {
         const { email } = req.body;
 
+        // Validate email
+        if(!email){
+            return res.status(400).json({ message: 'E-mail tələb olunur' });
+        }
+
+        const emailRegex = /^[\w\.-]+@[\w\.-]+\.\w+$/
+        if(!emailRegex.test(email)){
+            return res.status(400).json({message: 'E-mail düzgün formatda deyil'})
+        }
+
         // check if user exists
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email: email.trim().toLowerCase() });
         if (!user) {
             return res.status(404).json({ message: 'Istifadəçi tapılmadı' });
         }
@@ -216,6 +242,15 @@ export const forgotPassword = async(req, res) => {
 export const resetPassword = async(req, res) => {
     try {
         const { token, newPassword } = req.body;
+
+        // Validate inputs
+        if(!token || !newPassword){
+            return res.status(400).json({ message: 'Token və yeni şifrə tələb olunur' });
+        }
+
+        if(newPassword.length < 6){
+            return res.status(400).json({ message: 'Şifrə ən azı 6 simvol olmalıdır' });
+        }
 
         // verify token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
