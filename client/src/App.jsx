@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard";
 import ResumeBuilder from "./pages/ResumeBuilder";
 import Preview from "./pages/Preview";
 import Login from "./pages/Login";
+import ResetPassword from "./pages/ResetPassword";
 import Analytics from "./pages/Analytics";
 import TemplateGallery from "./pages/TemplateGallery";
 import JobMatcher from "./pages/JobMatcher";
@@ -44,6 +45,8 @@ const App = () => {
     <Toaster />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="login" element={<Login />} />
+        <Route path="reset-password" element={<ResetPassword />} />
 
         <Route path="app" element={<Layout />}>
           <Route index element={<Dashboard />} />
