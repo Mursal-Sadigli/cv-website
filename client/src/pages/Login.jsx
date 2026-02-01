@@ -59,16 +59,16 @@ const Login = () => {
                 {state !== "login" && (
                     <div className="flex items-center mt-6 w-full bg-white border border-gray-300/80 h-12 rounded-full overflow-hidden px-4 gap-2">
                         <User2Icon size={16} color='#6B7280' className="flex-shrink-0" />
-                        <input type="text" name="name" placeholder="Ad" className="border-none outline-none ring-0 w-full text-xs h-full py-0 leading-none" value={formData.name} onChange={handleChange} required />
+                        <input type="text" name="name" placeholder="Ad" className="border-none outline-none ring-0 w-full bg-transparent" value={formData.name} onChange={handleChange} required />
                     </div>
                 )}
                 <div className="flex items-center w-full mt-4 bg-white border border-gray-300/80 h-12 rounded-full overflow-hidden px-4 gap-2">
                    <Mail size={13} color='#6B7280' className="flex-shrink-0" />
-                    <input type="email" name="email" placeholder="Email" className="border-none outline-none ring-0 w-full text-xs h-full py-0 leading-none" value={formData.email} onChange={handleChange} required />
+                    <input type="email" name="email" placeholder="Email" className="border-none outline-none ring-0 w-full bg-transparent" value={formData.email} onChange={handleChange} required />
                 </div>
                 <div className="flex items-center mt-4 w-full bg-white border border-gray-300/80 h-12 rounded-full overflow-hidden px-4 gap-2">
                     <Lock size={13} color='#6B7280' className="flex-shrink-0" />
-                    <input type="password" name="password" placeholder="Şifrə" className="border-none outline-none ring-0 w-full text-xs h-full py-0 leading-none" value={formData.password} onChange={handleChange} required />
+                    <input type="password" name="password" placeholder="Şifrə" className="border-none outline-none ring-0 w-full bg-transparent" value={formData.password} onChange={handleChange} required />
                 </div>
                 {state === "login" && (
                 <div className="mt-4 text-left text-green-500">
@@ -86,7 +86,7 @@ const Login = () => {
             <p className="text-gray-500 text-sm mt-2">Şifrənizi sıfırlamaq üçün e-mailinizi daxil edin</p>
             <div className="flex items-center w-full mt-4 bg-white border border-gray-300/80 h-12 rounded-full overflow-hidden px-4 gap-2">
                <Mail size={13} color='#6B7280' className="flex-shrink-0" />
-                <input type="email" placeholder="Email" className="border-none outline-none ring-0 w-full text-xs h-full py-0 leading-none" value={forgotEmail} onChange={(e) => setForgotEmail(e.target.value)} required />
+                <input type="email" placeholder="Email" className="border-none outline-none ring-0 w-full bg-transparent" value={forgotEmail} onChange={(e) => setForgotEmail(e.target.value)} required />
             </div>
             <button type="submit" className="mt-6 w-full h-11 rounded-full text-white bg-green-500 hover:opacity-90 transition-opacity">
                 Göndər
