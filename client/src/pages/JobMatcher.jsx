@@ -19,8 +19,11 @@ const JobMatcher = () => {
   const handleFileUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    await processFile(file);
+  };
 
-    if (!file.name.endsWith('.pdf')) {
+  const processFile = async (file) => {
+    if (!file.type.includes('pdf')) {
       toast.error('Zəhmət olmasa PDF faylı seçin');
       return;
     }
@@ -29,12 +32,20 @@ const JobMatcher = () => {
       setResumeFile(file);
       const text = await pdfToText(file);
       setResumeText(text);
-      toast.success('CV yükləndi!');
+      toast.success('CV uğurla yükləndi! ✓');
     } catch (error) {
-      toast.error('PDF oxunması zamanı xəta');
+      console.error('PDF parse error:', error);
+      toast.error('PDF faylı oxunmadı. Digər PDF cəhd edin.');
       setResumeFile(null);
       setResumeText('');
     }
+  };
+
+  const handleDragDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const file = e.dataTransfer?.files?.[0];
+    if (file) processFile(file);
   };
 
   const handleAnalyzeJobMatch = async () => {
@@ -126,26 +137,34 @@ const JobMatcher = () => {
             <div className="mb-4">
               <label htmlFor="resume-input" className="block text-sm font-semibold mb-2 text-gray-700">
                 CV Faylı
-                <div className='flex flex-col items-center justify-center gap-2 border group text-gray-400 border-gray-300 border-dashed rounded-md p-6 py-10 my-4 hover:border-blue-500 hover:text-blue-600 cursor-pointer transition-colors'>
-                  {resumeFile ? (
-                    <div className='text-center'>
-                      <p className='text-blue-600 font-semibold'>{resumeFile.name}</p>
-                      <p className='text-xs text-gray-500 mt-1'>Klik edin dəyişdirmək üçün</p>
-                    </div>
-                  ) : (
-                    <>
-                      <Upload className='size-8 stroke-1' />
-                      <p className='font-semibold'>CV PDF-ni yüklə</p>
-                      <p className='text-xs text-gray-400'>və ya buraya çəkin</p>
-                    </>
-                  )}
-                </div>
               </label>
+              <div 
+                onClick={() => document.getElementById('resume-input')?.click()}
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
+                onDrop={handleDragDrop}
+                className='flex flex-col items-center justify-center gap-2 border group text-gray-400 border-gray-300 border-dashed rounded-md p-6 py-10 hover:border-blue-500 hover:text-blue-600 cursor-pointer transition-colors'
+              >
+                {resumeFile ? (
+                  <div className='text-center'>
+                    <p className='text-blue-600 font-semibold'>{resumeFile.name}</p>
+                    <p className='text-xs text-gray-500 mt-1'>Dəyişdirmək üçün klik edin</p>
+                  </div>
+                ) : (
+                  <>
+                    <Upload className='size-8 stroke-1' />
+                    <p className='font-semibold'>CV PDF-ni yüklə</p>
+                    <p className='text-xs text-gray-400'>və ya buraya çəkin</p>
+                  </>
+                )}
+              </div>
               <input 
                 type='file' 
                 id='resume-input' 
                 accept='.pdf' 
-                hidden 
+                style={{ display: 'none' }}
                 onChange={handleFileUpload}
               />
             </div>
