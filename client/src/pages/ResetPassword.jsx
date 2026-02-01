@@ -17,11 +17,16 @@ const ResetPassword = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target
-        setFormData(prev => ({ ...prev, [name]: value }))
+        setFormData(prev => ({ ...prev, [name]: value.trim() }))
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        
+        if (!formData.newPassword || !formData.confirmPassword) {
+            toast.error('Bütün sahələri doldurun')
+            return
+        }
         
         if (formData.newPassword !== formData.confirmPassword) {
             toast.error('Şifrələr uyğun gəlmir!')
@@ -32,6 +37,12 @@ const ResetPassword = () => {
             toast.error('Şifrə ən azı 6 simvol olmalıdır!')
             return
         }
+        
+        // Şifrə gücü yoxlaması
+        if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.newPassword)) {
+            toast.error('Şifrə hərflər və rəqəmlərdən ibarət olmalıdır')
+            return
+        }
 
         try {
             setLoading(true)
@@ -40,6 +51,7 @@ const ResetPassword = () => {
                 newPassword: formData.newPassword
             })
             toast.success(data.message)
+            setFormData({ newPassword: '', confirmPassword: '' })
             navigate('/login')
         } catch (error) {
             toast.error(error?.response?.data?.message || 'Xəta baş verdi!')
@@ -65,28 +77,31 @@ const ResetPassword = () => {
                 <h1 className="text-gray-900 text-3xl mt-10 font-medium">Yeni Şifrə</h1>
                 <p className="text-gray-500 text-sm mt-2">Yeni şifrənizi daxil edin</p>
                 
-                <div className="flex items-center mt-6 w-full bg-white border-2 border-gray-300/0 h-12 rounded-full overflow-hidden px-4 gap-2 focus-within:border-blue-500">
-                    <Lock size={13} color='#6B7280' className="flex-shrink-0" />
+                <div className="flex items-center mt-6 w-full bg-white border-2 border-gray-200 h-12 rounded-full overflow-hidden px-4 gap-3 focus-within:border-green-500 focus-within:shadow-sm hover:border-gray-300 transition-all duration-200">
+                    <Lock size={13} color='#9CA3AF' className="flex-shrink-0 transition-colors" />
                     <input 
                         type="password" 
                         name="newPassword" 
-                        placeholder="Şifrə" 
-                        className="border-none outline-none ring-0 w-full bg-transparent focus:ring-0 placeholder:text-gray-400" 
+                        placeholder="Yeni şifrə" 
+                        className="border-none outline-none ring-0 w-full bg-transparent focus:ring-0 placeholder:text-gray-350 text-gray-900 font-medium" 
                         value={formData.newPassword} 
-                        onChange={handleChange} 
+                        onChange={handleChange}
+                        maxLength="100"
+                        autoFocus
                         required 
                     />
                 </div>
 
-                <div className="flex items-center mt-4 w-full bg-white border-2 border-gray-300/0 h-12 rounded-full overflow-hidden px-4 gap-2 focus-within:border-blue-500">
-                    <Lock size={13} color='#6B7280' className="flex-shrink-0" />
+                <div className="flex items-center mt-4 w-full bg-white border-2 border-gray-200 h-12 rounded-full overflow-hidden px-4 gap-3 focus-within:border-green-500 focus-within:shadow-sm hover:border-gray-300 transition-all duration-200">
+                    <Lock size={13} color='#9CA3AF' className="flex-shrink-0 transition-colors" />
                     <input 
                         type="password" 
                         name="confirmPassword" 
-                        placeholder="Təsdiq" 
-                        className="border-none outline-none ring-0 w-full bg-transparent focus:ring-0 placeholder:text-gray-400" 
+                        placeholder="Şifrəni təsdiq edin" 
+                        className="border-none outline-none ring-0 w-full bg-transparent focus:ring-0 placeholder:text-gray-350 text-gray-900 font-medium" 
                         value={formData.confirmPassword} 
-                        onChange={handleChange} 
+                        onChange={handleChange}
+                        maxLength="100"
                         required 
                     />
                 </div>
