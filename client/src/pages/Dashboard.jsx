@@ -1,5 +1,6 @@
 import { FilePenLineIcon, LoaderCircleIcon, PencilIcon, PlusIcon, TrashIcon, UploadCloud, UploadCloudIcon, XIcon, Sparkles, Zap, Search } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
+import { flushSync } from 'react-dom'
 import { dummyResumeData } from '../assets/assets'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
@@ -64,27 +65,15 @@ const Dashboard = () => {
       
       toast.dismiss(loadingToast)
       
-      // Delay before state reset and navigation to ensure React finishes modal cleanup
-      setTimeout(async () => {
-        try {
-          // Reset modal state FIRST
-          setTitle('')
-          setResume(null)
-          setShowUploadResume(false)
-          setIsLoading(false)
-          
-          // Reload resumes
-          const {data: resumesData} = await api.get('/api/users/resumes', {headers: {Authorization: token}})
-          setAllResumes(resumesData.resumes)
-          
-          toast.success('CV uğurla yükləndi!')
-          navigate(`/app/builder/${data.resumeId}`)
-        } catch (err) {
-          console.error('Reload error:', err)
-          setIsLoading(false)
-          toast.error('Resumes yükləmə xətası')
-        }
-      }, 300)
+      // Use flushSync to force synchronous state updates, preventing DOM conflicts
+      flushSync(() => {
+        setIsLoading(false)
+        setShowUploadResume(false)
+      })
+      
+      // Then navigate - component will unmount anyway
+      toast.success('CV uğurla yükləndi!')
+      navigate(`/app/builder/${data.resumeId}`)
     } catch (error) {
       console.error('Upload error:', error)
       toast.dismiss(loadingToast)
