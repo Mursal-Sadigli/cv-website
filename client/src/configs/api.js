@@ -1,7 +1,10 @@
 import axios from 'axios'
 
+// Production URL - Render backend
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://cv-website-api.onrender.com'
+
 const api = axios.create({
-    baseURL: import.meta.env.VITE_BASE_URL || 'http://localhost:3000'
+    baseURL: BACKEND_URL
 })
 
 // Request interceptor - Token əlavə et
