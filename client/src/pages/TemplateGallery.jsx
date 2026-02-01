@@ -124,7 +124,13 @@ const TemplateGallery = () => {
   const PreviewComponent = selectedTpl?.component;
 
   const handleUseTemplate = (templateId, templateName, templateColor) => {
+    // Redux-a və localStorage-ə saxla
     dispatch(selectTemplate({ id: templateId, name: templateName, color: templateColor }));
+    localStorage.setItem('pendingTemplate', JSON.stringify({ 
+      id: templateId, 
+      name: templateName, 
+      color: templateColor 
+    }));
     navigate('/app');
   };
 
@@ -189,6 +195,9 @@ const TemplateGallery = () => {
 
                 <Link
                   to="/app"
+                  onClick={() => {
+                    dispatch(selectTemplate({ id: selectedTpl.id, name: selectedTpl.name, color: previewColor }));
+                  }}
                   className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2 px-3 rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-300 text-center font-bold text-lg flex items-center justify-center gap-2 border-2 border-blue-600 hover:border-blue-800 shadow-md"
                 >
                   <CheckCircle className="size-5" />

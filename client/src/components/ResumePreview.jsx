@@ -3,6 +3,10 @@ import ClassicTemplate from "./templates/ClassicTemplate";
 import ModernTemplate from "./templates/ModernTemplate";
 import MinimalTemplate from "./templates/MinimalTemplate";
 import MinimalImageTemplate from "./templates/MinimalImageTemplate";
+import ModernColorfulTemplate from "./templates/ModernColorfulTemplate";
+import TimelineTemplate from "./templates/TimelineTemplate";
+import CreativeTemplate from "./templates/CreativeTemplate";
+import ProfessionalTemplate from "./templates/ProfessionalTemplate";
 
 const ResumePreview = ({ data, template, accentColor, classes = "" }) => {
   const renderTemplate = () => {
@@ -13,7 +17,14 @@ const ResumePreview = ({ data, template, accentColor, classes = "" }) => {
         return <MinimalTemplate data={data} accentColor={accentColor} />;
       case "minimal-image":
         return <MinimalImageTemplate data={data} accentColor={accentColor} />;
-
+      case "modern-colorful":
+        return <ModernColorfulTemplate data={data} accentColor={accentColor} />;
+      case "timeline":
+        return <TimelineTemplate data={data} accentColor={accentColor} />;
+      case "creative":
+        return <CreativeTemplate data={data} accentColor={accentColor} />;
+      case "professional":
+        return <ProfessionalTemplate data={data} accentColor={accentColor} />;
       default:
         return <ClassicTemplate data={data} accentColor={accentColor} />;
     }

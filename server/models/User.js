@@ -5,6 +5,24 @@ const UserSchema = new mongoose.Schema({
     name: {type: String, required: true},
     email: {type: String, required: true, unique: true},
     password: {type: String, required: true},
+    analytics: {
+        resumesCreated: {type: Number, default: 0},
+        resumesViewed: {type: Number, default: 0},
+        downloadsCount: {type: Number, default: 0},
+        sessionsCount: {type: Number, default: 0},
+        totalTimeSpent: {type: Number, default: 0},
+        lastActivityDate: {type: Date, default: null},
+        templatesUsed: {
+            classic: {type: Number, default: 0},
+            minimal: {type: Number, default: 0},
+            modern: {type: Number, default: 0},
+            'minimal-image': {type: Number, default: 0},
+            'modern-colorful': {type: Number, default: 0},
+            timeline: {type: Number, default: 0},
+            creative: {type: Number, default: 0},
+            professional: {type: Number, default: 0},
+        }
+    }
 }, {timestamps: true})
 
 UserSchema.methods.comparePassword = function(password){

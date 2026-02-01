@@ -18,6 +18,7 @@ import api from '../configs/api'
 import toast from 'react-hot-toast'
 import { trackResumeCreated, trackTemplateUsed, trackDownload } from '../app/features/analyticsSlice'
 import { clearSelectedTemplate } from '../app/features/themeSlice'
+import analyticsService from '../services/analyticsService'
 
 const ResumeBuilder = () => {
 
@@ -75,21 +76,42 @@ const ResumeBuilder = () => {
   const activeSection = sections[activeSectionIndex]
 
   useEffect(() => {
-    loadExistingResume()
+    const initializeResume = async () => {
+      try {
+        await loadExistingResume();
+      } catch (error) {
+        console.log("Resume load error:", error);
+      }
+      
+      // Əvvəlcə Redux-dan template yoxla
+      if (selectedTemplate) {
+        setResumeData(prev => ({
+          ...prev,
+          template: selectedTemplate,
+          accent_color: selectedTemplateColor || '#3B82f6'
+        }));
+        return; // Redux-dan tətbiq olunduysa, localStorage-ə bakmayın
+      }
+      
+      // localStorage-dən template yoxla (pending template)
+      const pendingTemplate = localStorage.getItem('pendingTemplate');
+      if (pendingTemplate) {
+        try {
+          const template = JSON.parse(pendingTemplate);
+          setResumeData(prev => ({
+            ...prev,
+            template: template.id,
+            accent_color: template.color || '#3B82f6'
+          }));
+          localStorage.removeItem('pendingTemplate'); // Tətbiq edildikdən sonra sil
+        } catch (error) {
+          console.error('localStorage template parse error:', error);
+        }
+      }
+    };
     
-    // Əgər Template Gallery-dən template seçilibsə, onu tətbiq et
-    if (selectedTemplate) {
-      setResumeData(prev => ({
-        ...prev,
-        template: selectedTemplate,
-        accent_color: selectedTemplateColor || '#3B82f6'
-      }))
-      // Tətbiq edildikdən sonra clear et
-      setTimeout(() => {
-        dispatch(clearSelectedTemplate())
-      }, 100)
-    }
-  }, [resumeId])
+    initializeResume();
+  }, [resumeId, selectedTemplate, selectedTemplateColor]);
 
   const changeResumeVisibility = async () => {
    try {
@@ -118,8 +140,9 @@ const ResumeBuilder = () => {
     }
   }
 
-  const downloadResume = () => {
+  const downloadResume = async () => {
     dispatch(trackDownload());
+    await analyticsService.trackResumeDownload();
     window.print();
   }
 
@@ -158,6 +181,12 @@ const ResumeBuilder = () => {
       // Track resume creation if new
       if (!resumeId) {
         dispatch(trackResumeCreated());
+        await analyticsService.trackResumeCreated();
+      }
+      
+      // Template seçilmişsə, analytics-ə göndər
+      if (resumeData.template) {
+        await analyticsService.trackTemplateUsage(resumeData.template);
       }
       
       // Merge server response with local state to preserve certification and other fields
@@ -208,6 +237,7 @@ const ResumeBuilder = () => {
                   <TemplateSelector selectedTemplate={resumeData.template} onChange={(template) => {
                     setResumeData(prev => ({...prev, template}))
                     dispatch(trackTemplateUsed(template))
+                    analyticsService.trackTemplateUsage(template);
                   }} />
                     <ColorPicker selectedColor={resumeData.accent_color} onChange={(color) => setResumeData(prev => ({...prev, accent_color: color}))} />
                 </div>

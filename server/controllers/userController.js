@@ -108,3 +108,56 @@ export const getUserResumes = async(req, res) => {
         return res.status(400).json({message: error.message})
     }
 }
+
+// Controller for getting user analytics
+// GET: /api/users/analytics
+export const getUserAnalytics = async(req, res) => {
+    try {
+        const userId = req.userId;
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({message: 'User not found'});
+        }
+
+        return res.status(200).json({
+            analytics: user.analytics || {
+                resumesCreated: 0,
+                resumesViewed: 0,
+                downloadsCount: 0,
+                sessionsCount: 0,
+                totalTimeSpent: 0,
+                lastActivityDate: null,
+                templatesUsed: {}
+            }
+        });
+    } catch (error) {
+        return res.status(400).json({message: error.message});
+    }
+}
+
+// Controller for updating user analytics
+// PUT: /api/users/analytics
+export const updateUserAnalytics = async(req, res) => {
+    try {
+        const userId = req.userId;
+        const { analytics } = req.body;
+
+        const user = await User.findByIdAndUpdate(
+            userId,
+            { analytics },
+            { new: true }
+        );
+
+        if (!user) {
+            return res.status(404).json({message: 'User not found'});
+        }
+
+        return res.status(200).json({
+            message: 'Analytics updated successfully',
+            analytics: user.analytics
+        });
+    } catch (error) {
+        return res.status(400).json({message: error.message});
+    }
+}

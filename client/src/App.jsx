@@ -9,6 +9,7 @@ import Preview from "./pages/Preview";
 import Login from "./pages/Login";
 import Analytics from "./pages/Analytics";
 import TemplateGallery from "./pages/TemplateGallery";
+import JobMatcher from "./pages/JobMatcher";
 import api from "./configs/api";
 import { login, setLoading } from "./app/features/authSlice";
 import {Toaster} from 'react-hot-toast'
@@ -49,6 +50,7 @@ const App = () => {
           <Route path="builder/:resumeId" element={<ResumeBuilder />} />
           <Route path="analytics" element={<Analytics />} />
           <Route path="templates" element={<TemplateGallery />} />
+          <Route path="job-matcher" element={<JobMatcher />} />
         </Route>
 
         <Route path="view/:resumeId" element={<Preview />} />

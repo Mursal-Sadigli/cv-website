@@ -1,13 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { BarChart3, TrendingUp, FileText, Download, Clock, Activity } from 'lucide-react';
-import { incrementTimeSpent, incrementSession } from '../app/features/analyticsSlice';
+import { incrementTimeSpent, incrementSession, setAnalytics } from '../app/features/analyticsSlice';
+import analyticsService from '../services/analyticsService';
+import toast from 'react-hot-toast';
 
 const AnalyticsPanel = () => {
   const dispatch = useDispatch();
   const analytics = useSelector(state => state.analytics);
   const [sessionTime, setSessionTime] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
+  // Server-dən analytics məlumatlarını yükləniş
+  useEffect(() => {
+    const loadAnalytics = async () => {
+      try {
+        setIsLoading(true);
+        const serverAnalytics = await analyticsService.getAnalytics();
+        dispatch(setAnalytics(serverAnalytics));
+      } catch (error) {
+        console.error('Analytics yüklənərkən xəta:', error);
+        toast.error('Analytics yüklənə bilmədi');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadAnalytics();
+  }, [dispatch]);
+
+  // Sessiya başlat və vaxt izlə
   useEffect(() => {
     dispatch(incrementSession());
     const timer = setInterval(() => {
@@ -32,7 +54,8 @@ const AnalyticsPanel = () => {
     let maxCount = 0;
     let maxTemplate = '';
     
-    Object.entries(analytics.templatesUsed).forEach(([template, count]) => {
+    const templatesUsed = analytics.templatesUsed || {};
+    Object.entries(templatesUsed).forEach(([template, count]) => {
       if (count > maxCount) {
         maxCount = count;
         maxTemplate = template;
@@ -77,6 +100,17 @@ const AnalyticsPanel = () => {
 
   return (
     <div className="space-y-8">
+      {isLoading ? (
+        <div className="flex items-center justify-center py-12">
+          <div className="text-center">
+            <div className="inline-block animate-spin">
+              <Activity className="size-8 text-blue-600" />
+            </div>
+            <p className="mt-3 text-gray-600">Analytics yüklənir...</p>
+          </div>
+        </div>
+      ) : (
+        <>
       <div className="flex items-center justify-between">
         <div>
           <h2 className="flex items-center gap-2 text-2xl font-bold text-gray-900">
@@ -129,14 +163,18 @@ const AnalyticsPanel = () => {
               classic: 'Klassik',
               minimal: 'Minimal',
               modern: 'Müasır',
-              minimalImage: 'Şəkilli Minimal',
+              'minimal-image': 'Şəkilli Minimal',
+              'modern-colorful': 'Rəngli Müasır',
+              timeline: 'Zaman Xətti',
+              creative: 'Yaradıcı',
+              professional: 'Professional',
             };
 
             return (
               <div key={template}>
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm font-medium text-gray-700">
-                    {templateNames[template]}
+                    {templateNames[template] || template}
                   </span>
                   <span className="text-sm font-semibold text-gray-900">
                     {count} dəfə
@@ -213,6 +251,8 @@ const AnalyticsPanel = () => {
             <span className="font-semibold">Son fəaliyyət:</span> {new Date(analytics.lastActivityDate).toLocaleString('az-AZ')}
           </p>
         </div>
+      )}
+        </>
       )}
     </div>
   );
