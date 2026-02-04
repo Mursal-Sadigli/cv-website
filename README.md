@@ -99,11 +99,6 @@ cd client
 npm install
 ```
 
-**Environment Variables (.env):**
-```env
-VITE_API_BASE_URL=http://localhost:5000
-```
-
 **Development:**
 ```bash
 npm run dev
@@ -120,20 +115,6 @@ npm run preview
 ```bash
 cd server
 npm install
-```
-
-**Environment Variables (.env):**
-```env
-PORT=5000
-MONGODB_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret_key
-OPENAI_API_KEY=your_openai_api_key
-IMAGEKIT_PUBLIC_KEY=your_imagekit_public_key
-IMAGEKIT_PRIVATE_KEY=your_imagekit_private_key
-IMAGEKIT_URL_ENDPOINT=your_imagekit_url_endpoint
-RESEND_API_KEY=your_resend_api_key
-SMTP_EMAIL=your_email
-SMTP_PASSWORD=your_email_password
 ```
 
 **Development:**
