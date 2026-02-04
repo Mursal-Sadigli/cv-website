@@ -139,32 +139,6 @@ npm start
 - Ensure MongoDB is accessible from production
 - Set all environment variables in production environment
 
-## 📚 Project Structure
-
-```
-resume-builder/
-├── client/                 # React frontend application
-│   ├── src/
-│   │   ├── components/    # Reusable UI components
-│   │   ├── pages/         # Page components
-│   │   ├── app/           # Redux store & slices
-│   │   ├── hooks/         # Custom React hooks
-│   │   ├── services/      # API service functions
-│   │   ├── utils/         # Utility functions
-│   │   └── assets/        # Templates & assets
-│   ├── vite.config.js     # Vite configuration
-│   └── tailwind.config.js # Tailwind configuration
-│
-└── server/                 # Express backend server
-    ├── models/            # Mongoose models
-    ├── controllers/       # Route controllers
-    ├── routes/            # API routes
-    ├── middlewares/       # Custom middleware
-    ├── configs/           # Configuration files
-    └── server.js          # Entry point
-
-```
-
 ## 🎯 Usage Guide
 
 ### Creating a Resume
