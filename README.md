@@ -166,15 +166,6 @@ npm start
 - Track which templates you use most
 - Monitor total downloads and user engagement
 
-## 🔒 Security Features
-
-- **Password Security**: Bcrypt hashing for passwords
-- **JWT Authentication**: Secure token-based authentication
-- **CORS Protection**: Configured CORS for safe API access
-- **Input Validation**: Server-side validation of all inputs
-- **Environment Variables**: Sensitive data stored in .env files
-- **Multer Security**: Secure file upload handling
-
 ## 🎨 Customization
 
 The application is highly customizable:
@@ -204,25 +195,7 @@ The application is highly customizable:
 - Theme preferences
 - Feature usage patterns
 
-## 🔄 API Endpoints
-
-### Authentication
-- `POST /api/users/register` - User registration
-- `POST /api/users/login` - User login
-- `POST /api/users/reset-password` - Password reset
-
-### Resumes
-- `POST /api/resumes` - Create new resume
-- `GET /api/resumes/:id` - Get resume by ID
-- `PUT /api/resumes/:id` - Update resume
-- `DELETE /api/resumes/:id` - Delete resume
-- `GET /api/resumes` - Get all user resumes
-
-### AI Features
-- `POST /api/ai/job-match` - Match resume with job description
-- `POST /api/ai/suggestions` - Get AI suggestions for resume
-
-## 🐛 Troubleshooting
+##  Troubleshooting
 
 ### "Cannot connect to MongoDB"
 - Verify MongoDB connection string in .env
