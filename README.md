@@ -166,26 +166,6 @@ npm start
 - Track which templates you use most
 - Monitor total downloads and user engagement
 
-## 🎨 Customization
-
-The application is highly customizable:
-
-### Add New Templates
-1. Create new template component in `client/src/components/templates/`
-2. Export template in template list
-3. Add to template selector options
-
-### Modify Colors
-- Color schemes are customizable through the color picker
-- Template-specific styling in Tailwind CSS
-- Theme variables in Redux store
-
-### Add New Form Fields
-1. Create new form component in `client/src/components/`
-2. Add to ResumeBuilder page
-3. Update resume data structure
-4. Sync with backend Resume model
-
 ## 📊 Analytics Events Tracked
 
 - Resume creation events
@@ -194,28 +174,6 @@ The application is highly customizable:
 - User engagement metrics
 - Theme preferences
 - Feature usage patterns
-
-##  Troubleshooting
-
-### "Cannot connect to MongoDB"
-- Verify MongoDB connection string in .env
-- Check network access in MongoDB Atlas
-- Ensure MongoDB service is running
-
-### "AI features not working"
-- Verify OpenAI API key is set correctly
-- Check API key has sufficient quota
-- Review API rate limits
-
-### "Images not uploading"
-- Verify ImageKit credentials
-- Check file size limits
-- Ensure proper CORS configuration
-
-### "Frontend can't reach backend"
-- Verify `VITE_API_BASE_URL` is correct
-- Check backend is running on correct port
-- Ensure CORS is enabled on backend
 
 ## 📝 License
 
