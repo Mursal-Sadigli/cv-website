@@ -64,10 +64,10 @@ const ResumeBuilder = () => {
 
   const sections =[
     {id: "personal", name: "Personal Info", icon: User},
-    {id: "summary", name: "Summary", icon: FileText},
-    {id: "experience", name: "Experience", icon: Briefcase},
+    {id: "summary", name: "Professional Summary", icon: FileText},
+    {id: "experience", name: "Work Experience", icon: Briefcase},
     {id: "education", name: "Education", icon: GraduationCap},
-    {id: "certification", name: "Certification", icon: Award},
+    {id: "certification", name: "Certifications", icon: Award},
     {id: "languages", name: "Languages", icon: Globe},
     {id: "projects", name: "Projects", icon: FolderIcon},
     {id: "skills", name: "Skills", icon: Sparkles},
@@ -83,17 +83,17 @@ const ResumeBuilder = () => {
         console.log("Resume load error:", error);
       }
       
-      // Əvvəlcə Redux-dan template yoxla
+      // First check template from Redux
       if (selectedTemplate) {
         setResumeData(prev => ({
           ...prev,
           template: selectedTemplate,
           accent_color: selectedTemplateColor || '#3B82f6'
         }));
-        return; // Redux-dan tətbiq olunduysa, localStorage-ə bakmayın
+        return; // If applied from Redux, don't check localStorage
       }
       
-      // localStorage-dən template yoxla (pending template)
+      // Check template from localStorage (pending template)
       const pendingTemplate = localStorage.getItem('pendingTemplate');
       if (pendingTemplate) {
         try {
@@ -103,7 +103,7 @@ const ResumeBuilder = () => {
             template: template.id,
             accent_color: template.color || '#3B82f6'
           }));
-          localStorage.removeItem('pendingTemplate'); // Tətbiq edildikdən sonra sil
+          localStorage.removeItem('pendingTemplate'); // Delete after applied
         } catch (error) {
           console.error('localStorage template parse error:', error);
         }
@@ -134,9 +134,9 @@ const ResumeBuilder = () => {
     const resumeUrl = frontendUrl + '/view/' + resumeId;
 
     if(navigator.share){
-      navigator.share({url: resumeUrl, text: "CV-im", })
+      navigator.share({url: resumeUrl, text: "My Resume", })
     }else{
-      alert('Paylaşma funksiyası bu brauzerdə mövcud deyil.')
+      alert('Sharing is not available in this browser.')
     }
   }
 
@@ -216,7 +216,7 @@ const ResumeBuilder = () => {
     <div>
       <div className='max-w-7xl mx-auto px-4 py-6'>
         <Link to={'/app'} className='inline-flex gap-2 items-center text-slate-500 hover:text-slate-700 transition-all'>
-        <ArrowLeftIcon className='size-4' /> Panelə qayıt
+        <ArrowLeftIcon className='size-4' /> Go back to dashboard
         </Link>
       </div>
 
@@ -246,13 +246,13 @@ const ResumeBuilder = () => {
                   {activeSectionIndex !== 0 && (
                     <button onClick={() => setActiveSectionIndex((prevIndex) => Math.max(prevIndex - 1, 0))} className='flex items-center gap-1 p-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all' 
                     disabled={activeSectionIndex === 0}>
-                      <ChevronLeft className='size-4' /> Geri
+                      <ChevronLeft className='size-4' /> Back
                     </button>
                   )}
 
                   <button onClick={() => setActiveSectionIndex((prevIndex) => Math.min(prevIndex + 1, sections.length - 1))} className= {`flex items-center gap-1 p-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all ${activeSectionIndex === sections.length - 1 && 'opacity-50'}`}
                     disabled={activeSectionIndex === sections.length - 1}>
-                       Növbəti <ChevronRight className='size-4' />
+                       Next <ChevronRight className='size-4' />
                     </button>
                 </div>
               </div>
@@ -287,9 +287,9 @@ const ResumeBuilder = () => {
 
               <button onClick={() => {
                 console.log("Save button clicked, token:", token);
-                toast.promise(saveResume(), {loading: 'Dəyişikliklər yadda saxlanılır', success: 'Dəyişikliklər yadda saxlandı', error: 'Xəta baş verdi'})
+                toast.promise(saveResume(), {loading: 'Saving changes', success: 'Changes saved', error: 'An error occurred'})
               }} className='bg bg-gradient-to-br from-green-100 to-green-200 ring-green-300 text-green-600 ring hover:ring-green-400 transition-all rounded-md px-6 py-2 mt-6 text-sm'>
-                Dəyişiklikləri yadda saxla
+                Save Changes
               </button>
             </div>
           </div>
@@ -300,7 +300,7 @@ const ResumeBuilder = () => {
               <div className='flex items-center justify-end gap-2 p-4 border-b border-gray-200 bg-white rounded-t-lg'>
                 {resumeData.public && (
                   <button onClick={handleShare} className='flex items-center p-2 px-4 gap-2 text-xs bg-gradient-to-tr from-blue-100 to-blue-200 text-blue-600 rounded-lg ring-blue-300 hover:ring transition-colors'>
-                    <Share2Icon className='size-4' /> Paylaş
+                    <Share2Icon className='size-4' /> Share
                   </button>
                 )}
                 <button onClick={changeResumeVisibility} className='flex items-center p-2 px-4 gap-2 text-xs bg-gradient-to-tr from-purple-100 to-purple-200 text-purple-600 rounded-lg ring-purple-300 hover:ring transition-colors'>
@@ -309,7 +309,7 @@ const ResumeBuilder = () => {
                   {resumeData.public ? 'Public' : 'Private'}
                 </button>
                 <button onClick={downloadResume} className='flex items-center p-2 px-4 gap-2 text-xs bg-gradient-to-tr from-green-100 to-green-200 text-green-600 rounded-lg ring-green-300 hover:ring transition-colors'>
-                  <DownloadIcon className='size-4' />Yüklə
+                  <DownloadIcon className='size-4' />Download
                 </button>
               </div>
 

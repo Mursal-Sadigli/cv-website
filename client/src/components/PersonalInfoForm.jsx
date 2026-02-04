@@ -22,35 +22,35 @@ const PersonalInfoForm = ({
   const fields = [
     {
       key: "full_name",
-      label: "Ad Soyad",
+      label: "Full Name",
       icon: User,
       type: "text",
       required: true,
     },
     {
       key: "email",
-      label: "E-poçt ünvanı",
+      label: "Email Address",
       icon: Mail,
       type: "email",
       required: true,
     },
-    { key: "phone", label: "Telefon nömrəsi", icon: Phone, type: "tel" },
-    { key: "location", label: "Yaşadığın yer", icon: MapPin, type: "text" },
+    { key: "phone", label: "Phone Number", icon: Phone, type: "tel" },
+    { key: "location", label: "Location", icon: MapPin, type: "text" },
     {
       key: "profession",
-      label: "Peşə / İxtisas",
+      label: "Profession / Specialization",
       icon: BriefcaseBusiness,
       type: "text",
     },
-    { key: "linkedin", label: "LinkedIn profili", icon: Linkedin, type: "url" },
-    { key: "website", label: "Şəxsi veb sayt", icon: Globe, type: "url" },
+    { key: "linkedin", label: "LinkedIn Profile", icon: Linkedin, type: "url" },
+    { key: "website", label: "Personal Website", icon: Globe, type: "url" },
   ];
 
   return (
     <div>
-      <h3 className="text-lg font-semibold text-gray-900">Şəxsi Məlumatlar</h3>
+      <h3 className="text-lg font-semibold text-gray-900">Personal Information</h3>
       <p className="text-sm text-gray-600">
-        CV-ni yaratmağa şəxsi məlumatlarınızı daxil etməklə başlayın
+        Start creating your CV by entering your personal information
       </p>
       <div className="flex items-center gap-2">
         <label>
@@ -66,8 +66,8 @@ const PersonalInfoForm = ({
             />
           ) : (
             <div className="inline-flex items-center gap-2 mt-5 text-slate-600 hover:text-slate-700 cursor-pointer">
-              <User className="size-10 p-2.5 border rounded-full" /> Profil
-              şəklini yüklə
+              <User className="size-10 p-2.5 border rounded-full" /> Upload
+              profile picture
             </div>
           )}
           <input
@@ -79,7 +79,7 @@ const PersonalInfoForm = ({
         </label>
         {typeof data.image === "object" && (
           <div className="flex flex-col gap-1 pl-4 text-sm">
-            <p>Arxa fonu sil</p>
+            <p>Remove background</p>
             <label className="relative inline-flex items-center cursor-pointer text-gray-900 gap-3">
               <input
                 type="checkbox"
@@ -108,7 +108,7 @@ const PersonalInfoForm = ({
               value={data[field.key] || ""}
               onChange={(e) => handleChange(field.key, e.target.value)}
               className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors text-sm"
-              placeholder={`${field.label} daxil edin`}
+              placeholder={`Enter ${field.label}`}
               required={field.required}
             />
           </div>

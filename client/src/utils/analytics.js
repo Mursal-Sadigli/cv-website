@@ -9,63 +9,63 @@ import {
 } from '../app/features/analyticsSlice';
 
 /**
- * Analytics Utility - Redux ilə inteqrasiya
- * Bütün analytics hadisələri burada idarə olunur
+ * Analytics Utility - Redux integration
+ * All analytics events are managed here
  */
 
 export const analytics = {
   /**
-   * Yeni rezyume yaradıldığı zaman çağırılır
+   * Called when a new resume is created
    */
   trackNewResume: () => {
     store.dispatch(trackResumeCreated());
-    console.log('📊 Yeni rezyume yaradıldı');
+    console.log('📊 New resume created');
   },
 
   /**
-   * Rezyume görüntülənəndə çağırılır
+   * Called when resume is viewed
    */
   trackResumeView: () => {
     store.dispatch(trackResumeViewed());
-    console.log('👁️ Rezyume görüntüləndi');
+    console.log('👁️ Resume viewed');
   },
 
   /**
-   * Şablon seçildiyi zaman çağırılır
-   * @param {string} templateName - Şablonun adı
+   * Called when template is selected
+   * @param {string} templateName - Template name
    */
   trackTemplateSelection: (templateName) => {
     store.dispatch(trackTemplateUsed(templateName));
-    console.log(`🎨 Şablon seçildi: ${templateName}`);
+    console.log(`🎨 Template selected: ${templateName}`);
   },
 
   /**
-   * Rezyume yükləndiyində çağırılır
+   * Called when resume is downloaded
    */
   trackResumeDownload: () => {
     store.dispatch(trackDownload());
-    console.log('⬇️ Rezyume yükləndi');
+    console.log('⬇️ Resume downloaded');
   },
 
   /**
-   * Səhifədə geçən zamanı izləyir (saniyə cinsindən)
-   * @param {number} seconds - Keçən zaman (saniyə)
+   * Tracks time spent on page (in seconds)
+   * @param {number} seconds - Time elapsed (seconds)
    */
   trackTimeSpent: (seconds) => {
     store.dispatch(incrementTimeSpent(seconds));
-    console.log(`⏱️ ${seconds} saniyə vaxt keçdi`);
+    console.log(`⏱️ ${seconds} seconds elapsed`);
   },
 
   /**
-   * Yeni sessiyanı başlatır
+   * Starts a new session
    */
   startNewSession: () => {
     store.dispatch(incrementSession());
-    console.log('🚀 Yeni sessiya başladı');
+    console.log('🚀 New session started');
   },
 
   /**
-   * Cari analytics məlumatlarını alır
+   * Gets current analytics data
    * @returns {object} Analytics state
    */
   getAnalytics: () => {
@@ -74,8 +74,8 @@ export const analytics = {
   },
 
   /**
-   * Analytics xülasə məlumatlarını döndürür
-   * @returns {object} Xülasə məlumatları
+   * Returns analytics summary data
+   * @returns {object} Summary data
    */
   getSummary: () => {
     const state = store.getState();
@@ -93,9 +93,9 @@ export const analytics = {
   },
 
   /**
-   * Zaman formatını insan oxunabilir formatına çevir
-   * @param {number} seconds - Saniyə
-   * @returns {string} Fərqli vaxt formatı
+   * Convert time format to human readable format
+   * @param {number} seconds - Seconds
+   * @returns {string} Different time format
    */
   formatTime: (seconds) => {
     if (!seconds) return '0s';
@@ -105,16 +105,16 @@ export const analytics = {
     const secs = seconds % 60;
 
     const parts = [];
-    if (hours > 0) parts.push(`${hours}s`);
-    if (minutes > 0) parts.push(`${minutes}d`);
-    if (secs > 0) parts.push(`${secs}san`);
+    if (hours > 0) parts.push(`${hours}h`);
+    if (minutes > 0) parts.push(`${minutes}m`);
+    if (secs > 0) parts.push(`${secs}s`);
 
     return parts.join(' ');
   },
 
   /**
-   * En çox istifadə olunan şablonları alır
-   * @returns {array} Top 3 şablon
+   * Gets most used templates
+   * @returns {array} Top 3 templates
    */
   getTopTemplates: () => {
     const state = store.getState();
@@ -127,8 +127,8 @@ export const analytics = {
   },
 
   /**
-   * İstifadəçinin məhsuldarlığını qiymətləndirən skor
-   * @returns {number} 0-100 arası skor
+   * Score that evaluates user productivity
+   * @returns {number} Score between 0-100
    */
   getProductivityScore: () => {
     const state = store.getState();
@@ -138,7 +138,7 @@ export const analytics = {
       100,
       (analytics.resumesCreated || 0) * 20 +
         (analytics.downloadsCount || 0) * 15 +
-        Math.min((analytics.totalTimeSpent || 0) / 3600, 20) + // Maksimum 20 puan vaxt üçün
+        Math.min((analytics.totalTimeSpent || 0) / 3600, 20) + // Maximum 20 points for time
         (analytics.templatesUsed ? Object.keys(analytics.templatesUsed).length * 10 : 0)
     );
 

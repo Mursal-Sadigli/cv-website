@@ -21,57 +21,57 @@ const TemplateGallery = () => {
   const templates = [
     {
       id: 'classic',
-      name: 'Klassik',
-      description: 'Ənənəvi və professionalTemplates Gallery - Daha çox şablonlar',
+      name: 'Classic',
+      description: 'Traditional and professionalTemplates Gallery - More templates',
       component: ClassicTemplate,
       color: '#3B82f6',
     },
     {
       id: 'minimal',
       name: 'Minimal',
-      description: 'Sadə və təmiz',
+      description: 'Simple and clean',
       component: MinimalTemplate,
       color: '#10b981',
     },
     {
       id: 'modern',
-      name: 'Müasır',
-      description: 'Müasır və fərqli',
+      name: 'Modern',
+      description: 'Modern and distinctive',
       component: ModernTemplate,
       color: '#f59e0b',
     },
     {
       id: 'minimal-image',
-      name: 'Şəkilli Minimal',
-      description: 'Şəkil ilə minimal',
+      name: 'Minimal with Image',
+      description: 'Minimal with image',
       component: MinimalImageTemplate,
       color: '#8b5cf6',
     },
     {
       id: 'modern-colorful',
-      name: 'Rəngli Müasır',
-      description: 'Rənglərlə dolu',
+      name: 'Colorful Modern',
+      description: 'Full of colors',
       component: ModernColorfulTemplate,
       color: '#ec4899',
     },
     {
       id: 'timeline',
-      name: 'Zaman Xətti',
-      description: 'Zaman xətti ilə təqdimat',
+      name: 'Timeline',
+      description: 'Presentation with timeline',
       component: TimelineTemplate,
       color: '#06b6d4',
     },
     {
       id: 'creative',
-      name: 'Yaradıcı',
-      description: 'Yaradıcı tərəf layoutu',
+      name: 'Creative',
+      description: 'Creative side layout',
       component: CreativeTemplate,
       color: '#ef4444',
     },
     {
       id: 'professional',
       name: 'Professional',
-      description: 'Korporativ professional',
+      description: 'Corporate professional',
       component: ProfessionalTemplate,
       color: '#14b8a6',
     },
@@ -79,15 +79,15 @@ const TemplateGallery = () => {
 
   const dummyData = {
     personal_info: {
-      full_name: 'Ayşə Hüseynova',
-      profession: 'Veb Dəveloper',
-      email: 'ayse@example.com',
-      phone: '+994 50 XXX XX XX',
-      location: 'Bakı, Azərbaycan',
+      full_name: 'Sarah Johnson',
+      profession: 'Web Developer',
+      email: 'sarah@example.com',
+      phone: '+1 (555) 123-4567',
+      location: 'New York, USA',
       linkedin: 'linkedin.com/in/ayse',
       website: 'aysedev.com',
     },
-    professional_summary: 'Peşəkar veb dəveleperəm, 5 illik təcrübəsi ilə React, Node.js və bulud texnologiyalarında uzmanım.',
+    professional_summary: 'I am a professional web developer with 5 years of experience in React, Node.js and cloud technologies.',
     experience: [
       {
         company: 'Tech Company',
@@ -95,7 +95,7 @@ const TemplateGallery = () => {
         start_date: '2022-01',
         end_date: '',
         is_current: true,
-        description: 'Əsas proyektlərdə liderlik, komanda menecmenti və texniki mühəndislik.',
+        description: 'Leadership in main projects, team management and technical engineering.',
       },
       {
         company: 'Digital Agency',
@@ -103,14 +103,14 @@ const TemplateGallery = () => {
         start_date: '2020-06',
         end_date: '2021-12',
         is_current: false,
-        description: 'Müxtəlif vəb tətbiqlərin inkişafı və dizayn implementasiyası.',
+        description: 'Development of various web applications and design implementation.',
       },
     ],
     education: [
       {
-        institution: 'Bak ı Dövlət Universiteti',
-        degree: 'Bakalavriat',
-        field: 'Kompüter Elmləri',
+        institution: 'Baku State University',
+        degree: 'Bachelor',
+        field: 'Computer Science',
         graduation_date: '2020-06',
         gpa: '3.8',
       },
@@ -124,7 +124,7 @@ const TemplateGallery = () => {
   const PreviewComponent = selectedTpl?.component;
 
   const handleUseTemplate = (templateId, templateName, templateColor) => {
-    // Redux-a və localStorage-ə saxla
+    // Save to Redux and localStorage
     dispatch(selectTemplate({ id: templateId, name: templateName, color: templateColor }));
     localStorage.setItem('pendingTemplate', JSON.stringify({ 
       id: templateId, 
@@ -141,11 +141,11 @@ const TemplateGallery = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <Link to="/app" className="flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-4 w-fit">
             <ArrowLeft className="size-4" />
-            Geri qayıt
+            Go Back
           </Link>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Şablonlar Qalereyası</h1>
-            <p className="text-gray-600 mt-1">Daha çox şablonlar - Rezyumenizi istənilən stilə çevirin</p>
+            <h1 className="text-3xl font-bold text-gray-900">Template Gallery</h1>
+            <p className="text-gray-600 mt-1">More templates - Convert your resume to any style</p>
           </div>
         </div>
       </div>
@@ -158,7 +158,7 @@ const TemplateGallery = () => {
             <div className="lg:col-span-2">
               <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
                 <div className="p-4 bg-gray-100 border-b flex justify-between items-center">
-                  <h2 className="font-semibold text-gray-700">{selectedTpl?.name} - Ön İzləmə</h2>
+                  <h2 className="font-semibold text-gray-700">{selectedTpl?.name} - Preview</h2>
                   <button
                     onClick={() => setSelectedTemplate(null)}
                     className="text-gray-600 hover:text-gray-800"
@@ -180,7 +180,7 @@ const TemplateGallery = () => {
 
                 {/* Color Picker */}
                 <div className="mb-6">
-                  <label className="block text-sm font-semibold mb-3 text-gray-700">Rəng Seçin</label>
+                  <label className="block text-sm font-semibold mb-3 text-gray-700">Choose Color</label>
                   <div className="grid grid-cols-4 gap-2">
                     {['#3B82f6', '#10b981', '#f59e0b', '#ec4899', '#8b5cf6', '#06b6d4', '#ef4444', '#14b8a6'].map((color) => (
                       <button
@@ -201,7 +201,7 @@ const TemplateGallery = () => {
                   className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-2 px-3 rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-300 text-center font-bold text-lg flex items-center justify-center gap-2 border-2 border-blue-600 hover:border-blue-800 shadow-md"
                 >
                   <CheckCircle className="size-5" />
-                  Bu Şablondan İstifadə Et
+                  Use This Template
                 </Link>
               </div>
             </div>
@@ -236,7 +236,7 @@ const TemplateGallery = () => {
                         className="flex-1 flex items-center justify-center gap-2 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors font-semibold"
                       >
                         <Eye className="size-4" />
-                        Bax
+                        View
                       </button>
 
                       <button
@@ -244,7 +244,7 @@ const TemplateGallery = () => {
                         className="flex-1 flex items-center justify-center gap-2 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-colors font-semibold"
                       >
                         <Download className="size-4" />
-                        İstifadə Et
+                        Use
                       </button>
                     </div>
                   </div>

@@ -12,10 +12,10 @@ const Features = () => {
 
          <div className="flex items-center gap-2 text-sm text-green-600 bg-green-400/10 border rounded-full px-6 py-1.5">
             <Zap width={14} />
-            <span>Sadə Prosess</span>
+            <span>Simple Process</span>
         </div>
 
-        <Title title='CV-nizi yaradın' description='Sadələşdirilmiş prosesimiz sayəsində bir neçə dəqiqədə peşəkar CV yaradın. Ağıllı AI alətləri və xüsusiyyətləri işinizi asanlaşdırır.' />
+        <Title title='Create Your CV' description='Create a professional CV in minutes thanks to our simplified process. Smart AI tools and features make your work easier.' />
 
             <div className="flex flex-col md:flex-row items-center justify-center xl:-mt-10">
                 <img className="max-w-2xl w-full xl:-ml-32" src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/features/group-image-1.png" alt="" />

@@ -5,7 +5,7 @@ import { logout } from "../app/features/authSlice.js";
 import { BarChart3 } from "lucide-react";
 
 const Navbar = () => {
-  const {user} = useSelector(state => state.auth)
+  const { user } = useSelector(state => state.auth)
   const dispatch = useDispatch()
   const navigate = useNavigate();
 
@@ -21,20 +21,20 @@ const Navbar = () => {
           <img src="/logo.svg" alt="logo" className="h-11 w-auto" />
         </Link>
         <div className="flex items-center gap-4 text-sm">
-          <p className="max-sm:hidden">Salam, {user?.name}</p>
+          <p className="max-sm:hidden">Hello, {user?.name}</p>
           <Link 
             to="/app/analytics"
             className="flex items-center gap-1 hover:text-blue-600 transition-colors"
-            title="Analitika"
+            title="Analytics"
           >
             <BarChart3 className="size-5" />
-            <span className="max-sm:hidden">Analitika</span>
+            <span className="max-sm:hidden">Analytics</span>
           </Link>
           <button
             onClick={logoutUser}
             className="bg-white hover:bg-slate-50 border border-gray-300 px-7 py-1.5 rounded-full active:scale-95 transition-all"
           >
-            Çıxış
+            Logout
           </button>
         </div>
       </nav>

@@ -6,21 +6,28 @@ import toast from "react-hot-toast";
 
 const ProfessionalSummaryForm = ({ data, onChange, setResumeData }) => {
 
-  const {token} = useSelector(state => state.auth)
+  const { token } = useSelector(state => state.auth)
   const [isGenerating, setIsGenerating] = useState(false)
 
-  const generateSummary = async() => {
+  const generateSummary = async () => {
     try {
       setIsGenerating(true)
       const prompt = `enhance my professional summary "${data}"`;
-      console.log('Sending to AI:', {userContent: prompt});
-      const response = await api.post('/api/ai/enhance-pro-sum', {userContent: prompt}, {headers: {Authorization: `Bearer ${token}`}})
+      console.log('Sending to AI:', { userContent: prompt });
+      const response = await api.post(
+        '/api/ai/enhance-pro-sum',
+        { userContent: prompt },
+        { headers: { Authorization: `Bearer ${token}` } }
+      )
       console.log('AI Response:', response.data);
-      setResumeData(prev => ({...prev, professional_summary: response.data.enhancedContent}))
+      setResumeData(prev => ({
+        ...prev,
+        professional_summary: response.data.enhancedContent
+      }))
     } catch (error) {
       console.error('AI Error:', error);
       toast.error(error?.response?.data?.message || error.message)
-    }finally{
+    } finally {
       setIsGenerating(false)
     }
   }
@@ -30,15 +37,23 @@ const ProfessionalSummaryForm = ({ data, onChange, setResumeData }) => {
       <div className="flex items-center justify-between">
         <div>
           <h3 className="flex items-center gap-2 text-lg font-semibold text-gray-900">
-            Peşəkar Yekun
+            Professional Summary
           </h3>
           <p className="text-sm text-gray-500">
-            CV üçün xülasənizi burada əlavə edin
+            Add your professional summary for your CV here
           </p>
         </div>
-        <button disabled={isGenerating} onClick={generateSummary} className="flex items-center gap-2 px-3 py-1 text-sm bg-purple-100 text-purple-700 rounded hover:bg-purple-200 transition-colors disabled:opacity-50">
-          {isGenerating ? (<Loader2 className="size-4 animate-spin"/>) : (<Sparkles className="size-4" />)}
-          {isGenerating ? "Yaradılır..." : "AI ilə Təkmilləşdir"}
+        <button
+          disabled={isGenerating}
+          onClick={generateSummary}
+          className="flex items-center gap-2 px-3 py-1 text-sm bg-purple-100 text-purple-700 rounded hover:bg-purple-200 transition-colors disabled:opacity-50"
+        >
+          {isGenerating ? (
+            <Loader2 className="size-4 animate-spin" />
+          ) : (
+            <Sparkles className="size-4" />
+          )}
+          {isGenerating ? "Generating..." : "Enhance with AI"}
         </button>
       </div>
 
@@ -50,11 +65,11 @@ const ProfessionalSummaryForm = ({ data, onChange, setResumeData }) => {
           name=""
           id=""
           className="w-full p-3 px-4 mt-2 border text-sm border-gray-300 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors resize-none"
-          placeholder="Əsas bacarıqlarınızı və karyera məqsədlərinizi vurğulayan təsirli peşəkar xülasə yazın..."
+          placeholder="Write a compelling professional summary highlighting your key skills and career goals..."
         />
         <p className="text-xs text-gray-500 max-w-4/5 mx-auto text-center">
-          Məsləhət: Qısa və konkret saxlayın (3–4 cümlə) və ən vacib
-          nailiyyətlərinizə və bacarıqlarınıza diqqət yetirin.
+          Tip: Keep it short and concise (3–4 sentences) and focus on your most
+          important achievements and skills.
         </p>
       </div>
     </div>

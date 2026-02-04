@@ -29,19 +29,19 @@ const Login = () => {
         const trimmedPassword = formData.password.trim()
         const trimmedName = formData.name.trim()
         
-        // Validasiya
+        // Validation
         if (!trimmedEmail.match(/^[\w\.-]+@[\w\.-]+\.\w+$/)) {
-            toast.error('E-mail düzgün formatda deyil')
+            toast.error('Email format is incorrect')
             return
         }
         
         if (trimmedPassword.length < 6) {
-            toast.error('Şifrə ən azı 6 simvol olmalıdır')
+            toast.error('Password must be at least 6 characters')
             return
         }
         
         if (state === "register" && !trimmedName) {
-            toast.error('Ad boş ola bilməz')
+            toast.error('Name cannot be empty')
             return
         }
         
@@ -74,17 +74,17 @@ const Login = () => {
         const trimmedEmail = forgotEmail.trim()
         
         if (!trimmedEmail.match(/^[\w\.-]+@[\w\.-]+\.\w+$/)) {
-            toast.error('E-mail düzgün formatda deyil')
+            toast.error('Email format is incorrect')
             return
         }
         
         try {
             const { data } = await api.post('/api/users/forgot-password', { email: trimmedEmail })
-            toast.success('Şifrə sıfırlama linki e-mailinizə göndərildi!')
+            toast.success('Password reset link sent to your email!')
             setShowForgotPassword(false)
             setForgotEmail('')
         } catch (error) {
-            toast.error(error?.response?.data?.message || 'Xəta baş verdi!')
+            toast.error(error?.response?.data?.message || 'An error occurred!')
         }
     }
     
@@ -92,21 +92,21 @@ const Login = () => {
     <div className='flex items-center justify-center min-h-screen bg-gray-50'>
         {!showForgotPassword ? (
         <form onSubmit={handleSubmit} className="sm:w-[350px] w-full text-center border border-gray-300/60 rounded-2xl px-8 bg-white">
-                <h1 className="text-gray-900 text-3xl mt-10 font-medium">{state === "login" ? "Daxil Ol" : "Qeydiyyatdan Keç"}</h1>
-                <p className="text-gray-500 text-sm mt-2">{state === "login" ? "Daxil olmaq üçün xahiş edirik" : "Qeydiyyatdan keçmək üçün xahiş edirik"}</p>
+                <h1 className="text-gray-900 text-3xl mt-10 font-medium">{state === "login" ? "Log In" : "Sign Up"}</h1>
+                <p className="text-gray-500 text-sm mt-2">{state === "login" ? "Please log in" : "Please sign up"}</p>
                 {state !== "login" && (
                     <div className="flex items-center mt-6 w-full bg-gray-50 border-2 border-gray-200 h-12 rounded-lg overflow-hidden px-4 gap-3 focus-within:bg-white focus-within:border-green-500 focus-within:shadow-md hover:bg-gray-50 hover:border-gray-300 transition-all duration-200">
                         <User2Icon size={16} color='#9CA3AF' className="flex-shrink-0" />
-                        <input autoFocus type="text" name="name" placeholder="Adınız" className="border-0 outline-0 ring-0 w-full bg-transparent focus:outline-0 focus:ring-0 focus-visible:ring-0 placeholder:text-gray-400 text-gray-900 appearance-none" value={formData.name} onChange={handleChange} maxLength="50" required />
+                        <input autoFocus type="text" name="name" placeholder="Your Name" className="border-0 outline-0 ring-0 w-full bg-transparent focus:outline-0 focus:ring-0 focus-visible:ring-0 placeholder:text-gray-400 text-gray-900 appearance-none" value={formData.name} onChange={handleChange} maxLength="50" required />
                     </div>
                 )}
                 <div className="flex items-center w-full mt-6 bg-gray-50 border-2 border-gray-200 h-12 rounded-lg overflow-hidden px-4 gap-3 focus-within:bg-white focus-within:border-green-500 focus-within:shadow-md hover:bg-gray-50 hover:border-gray-300 transition-all duration-200">
                    <Mail size={13} color='#9CA3AF' className="flex-shrink-0" />
-                    <input autoFocus={state === "login"} type="email" name="email" placeholder="Email adresi" className="border-0 outline-0 ring-0 w-full bg-transparent focus:outline-0 focus:ring-0 focus-visible:ring-0 placeholder:text-gray-400 text-gray-900 appearance-none" value={formData.email} onChange={handleChange} maxLength="100" required />
+                    <input autoFocus={state === "login"} type="email" name="email" placeholder="Email address" className="border-0 outline-0 ring-0 w-full bg-transparent focus:outline-0 focus:ring-0 focus-visible:ring-0 placeholder:text-gray-400 text-gray-900 appearance-none" value={formData.email} onChange={handleChange} maxLength="100" required />
                 </div>
                 <div className="flex items-center mt-4 w-full bg-gray-50 border-2 border-gray-200 h-12 rounded-lg overflow-hidden px-4 gap-3 focus-within:bg-white focus-within:border-green-500 focus-within:shadow-md hover:bg-gray-50 hover:border-gray-300 transition-all duration-200">
                     <Lock size={13} color='#9CA3AF' className="flex-shrink-0" />
-                    <input type={showPassword ? "text" : "password"} name="password" placeholder="Şifrəniz" className="border-0 outline-0 ring-0 w-full bg-transparent focus:outline-0 focus:ring-0 focus-visible:ring-0 placeholder:text-gray-400 text-gray-900 appearance-none" value={formData.password} onChange={handleChange} maxLength="100" required />
+                    <input type={showPassword ? "text" : "password"} name="password" placeholder="Your Password" className="border-0 outline-0 ring-0 w-full bg-transparent focus:outline-0 focus:ring-0 focus-visible:ring-0 placeholder:text-gray-400 text-gray-900 appearance-none" value={formData.password} onChange={handleChange} maxLength="100" required />
                     <button 
                         type="button" 
                         onClick={() => setShowPassword(!showPassword)}
@@ -117,26 +117,26 @@ const Login = () => {
                 </div>
                 {state === "login" && (
                 <div className="mt-4 text-left text-green-500">
-                    <button type="button" onClick={() => setShowForgotPassword(true)} className="text-sm hover:underline">Şifrəni unutdunuz?</button>
+                    <button type="button" onClick={() => setShowForgotPassword(true)} className="text-sm hover:underline">Forgot password?</button>
                 </div>
                 )}
                 <button type="submit" className="mt-2 w-full h-11 rounded-full text-white bg-green-500 hover:opacity-90 transition-opacity">
-                    {state === "login" ? "Daxil Ol" : "Qeydiyyatdan Keç"}
+                    {state === "login" ? "Log In" : "Sign Up"}
                 </button>
-                <p onClick={() => setState(prev => prev === "login" ? "register" : "login")} className="text-gray-500 text-sm mt-3 mb-11 cursor-pointer">{state === "login" ? "Hesabınız yoxdur?" : "Artıq hesabınız var?"} <span className="text-green-500 hover:underline">buraya klikləyin</span></p>
+                <p onClick={() => setState(prev => prev === "login" ? "register" : "login")} className="text-gray-500 text-sm mt-3 mb-11 cursor-pointer">{state === "login" ? "Don't have an account?" : "Already have an account?"} <span className="text-green-500 hover:underline">click here</span></p>
             </form>
         ) : (
         <form onSubmit={handleForgotPassword} className="sm:w-[350px] w-full text-center border border-gray-300/60 rounded-2xl px-8 bg-white">
-            <h1 className="text-gray-900 text-3xl mt-10 font-medium">Şifrə Sıfırla</h1>
-            <p className="text-gray-500 text-sm mt-2">Şifrənizi sıfırlamaq üçün e-mailinizi daxil edin</p>
+            <h1 className="text-gray-900 text-3xl mt-10 font-medium">Reset Password</h1>
+            <p className="text-gray-500 text-sm mt-2">Enter your email to reset your password</p>
             <div className="flex items-center w-full mt-6 bg-gray-50 border-2 border-gray-200 h-12 rounded-lg overflow-hidden px-4 gap-3 focus-within:bg-white focus-within:border-green-500 focus-within:shadow-md hover:bg-gray-50 hover:border-gray-300 transition-all duration-200">
                <Mail size={13} color='#9CA3AF' className="flex-shrink-0" />
-                <input autoFocus type="email" placeholder="Email adresi" className="border-0 outline-0 ring-0 w-full bg-transparent focus:outline-0 focus:ring-0 focus-visible:ring-0 placeholder:text-gray-400 text-gray-900 appearance-none" value={forgotEmail} onChange={(e) => setForgotEmail(e.target.value.trim())} maxLength="100" required />
+                <input autoFocus type="email" placeholder="Email address" className="border-0 outline-0 ring-0 w-full bg-transparent focus:outline-0 focus:ring-0 focus-visible:ring-0 placeholder:text-gray-400 text-gray-900 appearance-none" value={forgotEmail} onChange={(e) => setForgotEmail(e.target.value.trim())} maxLength="100" required />
             </div>
             <button type="submit" className="mt-6 w-full h-11 rounded-full text-white bg-green-500 hover:opacity-90 transition-opacity">
-                Göndər
+                Send
             </button>
-            <button type="button" onClick={() => setShowForgotPassword(false)} className="text-gray-500 text-sm mt-3 mb-11 hover:underline">Geri qayıt</button>
+            <button type="button" onClick={() => setShowForgotPassword(false)} className="text-gray-500 text-sm mt-3 mb-11 hover:underline">Go Back</button>
         </form>
         )}
     </div>

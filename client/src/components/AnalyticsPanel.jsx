@@ -11,7 +11,7 @@ const AnalyticsPanel = () => {
   const [sessionTime, setSessionTime] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Server-dən analytics məlumatlarını yükləniş
+  // Load analytics data from server
   useEffect(() => {
     const loadAnalytics = async () => {
       try {
@@ -19,8 +19,8 @@ const AnalyticsPanel = () => {
         const serverAnalytics = await analyticsService.getAnalytics();
         dispatch(setAnalytics(serverAnalytics));
       } catch (error) {
-        console.error('Analytics yüklənərkən xəta:', error);
-        toast.error('Analytics yüklənə bilmədi');
+        console.error('Error while loading analytics:', error);
+        toast.error('Failed to load analytics');
       } finally {
         setIsLoading(false);
       }
@@ -29,7 +29,7 @@ const AnalyticsPanel = () => {
     loadAnalytics();
   }, [dispatch]);
 
-  // Sessiya başlat və vaxt izlə
+  // Start session and track time
   useEffect(() => {
     dispatch(incrementSession());
     const timer = setInterval(() => {
@@ -69,28 +69,28 @@ const AnalyticsPanel = () => {
 
   const stats = [
     {
-      label: 'Yaradılan Rezyumeler',
+      label: 'Created Resumes',
       value: analytics.resumesCreated,
       icon: FileText,
       color: 'from-blue-100 to-blue-200',
       textColor: 'text-blue-600',
     },
     {
-      label: 'Görüntülənən Rezyumeler',
+      label: 'Viewed Resumes',
       value: analytics.resumesViewed,
       icon: TrendingUp,
       color: 'from-green-100 to-green-200',
       textColor: 'text-green-600',
     },
     {
-      label: 'Endirilən Rezyumeler',
+      label: 'Downloaded Resumes',
       value: analytics.downloadsCount,
       icon: Download,
       color: 'from-purple-100 to-purple-200',
       textColor: 'text-purple-600',
     },
     {
-      label: 'Cəmi Seans Vaxtı',
+      label: 'Total Session Time',
       value: formatTime(analytics.totalTimeSpent),
       icon: Clock,
       color: 'from-orange-100 to-orange-200',
@@ -106,7 +106,7 @@ const AnalyticsPanel = () => {
             <div className="inline-block animate-spin">
               <Activity className="size-8 text-blue-600" />
             </div>
-            <p className="mt-3 text-gray-600">Analytics yüklənir...</p>
+            <p className="mt-3 text-gray-600">Loading analytics...</p>
           </div>
         </div>
       ) : (
@@ -115,10 +115,10 @@ const AnalyticsPanel = () => {
         <div>
           <h2 className="flex items-center gap-2 text-2xl font-bold text-gray-900">
             <BarChart3 className="size-7" />
-            İstifadə Statistikası
+            Usage Statistics
           </h2>
           <p className="text-sm text-gray-500 mt-1">
-            Rezyume qurucu fəaliyyətinin ətraflı məlumatı
+            Detailed overview of resume builder activity
           </p>
         </div>
       </div>
@@ -152,7 +152,7 @@ const AnalyticsPanel = () => {
       <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
         <h3 className="text-lg font-semibold text-gray-900 mb-6 flex items-center gap-2">
           <BarChart3 className="size-5" />
-          Şablon İstifadəsi
+          Template Usage
         </h3>
 
         <div className="space-y-4">
@@ -160,13 +160,13 @@ const AnalyticsPanel = () => {
             const maxCount = Math.max(...Object.values(analytics.templatesUsed), 1);
             const percentage = (count / maxCount) * 100;
             const templateNames = {
-              classic: 'Klassik',
+              classic: 'Classic',
               minimal: 'Minimal',
-              modern: 'Müasır',
-              'minimal-image': 'Şəkilli Minimal',
-              'modern-colorful': 'Rəngli Müasır',
-              timeline: 'Zaman Xətti',
-              creative: 'Yaradıcı',
+              modern: 'Modern',
+              'minimal-image': 'Minimal with Image',
+              'modern-colorful': 'Colorful Modern',
+              timeline: 'Timeline',
+              creative: 'Creative',
               professional: 'Professional',
             };
 
@@ -177,7 +177,7 @@ const AnalyticsPanel = () => {
                     {templateNames[template] || template}
                   </span>
                   <span className="text-sm font-semibold text-gray-900">
-                    {count} dəfə
+                    {count} times
                   </span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
@@ -194,10 +194,18 @@ const AnalyticsPanel = () => {
         {mostUsed.count > 0 && (
           <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
             <p className="text-sm text-blue-900">
-              <span className="font-semibold">Ən çox istifadə olunan şablon:</span> {Object.keys(analytics.templatesUsed).find(k => analytics.templatesUsed[k] === mostUsed.count) ? Object.keys(analytics.templatesUsed)
-                .filter(k => analytics.templatesUsed[k] === mostUsed.count)
-                .map(k => ({classic: 'Klassik', minimal: 'Minimal', modern: 'Müasır', minimalImage: 'Şəkilli Minimal'}[k]))
-                .join(', ') : 'Hələ istifadə olunmayıb'}
+              <span className="font-semibold">Most used template:</span>{' '}
+              {Object.keys(analytics.templatesUsed).find(k => analytics.templatesUsed[k] === mostUsed.count)
+                ? Object.keys(analytics.templatesUsed)
+                    .filter(k => analytics.templatesUsed[k] === mostUsed.count)
+                    .map(k => ({
+                      classic: 'Classic',
+                      minimal: 'Minimal',
+                      modern: 'Modern',
+                      minimalImage: 'Minimal with Image',
+                    }[k]))
+                    .join(', ')
+                : 'Not used yet'}
             </p>
           </div>
         )}
@@ -211,7 +219,7 @@ const AnalyticsPanel = () => {
               <Activity className="size-6" />
             </div>
             <div>
-              <p className="text-sm text-indigo-900">Cəmi Səanslər</p>
+              <p className="text-sm text-indigo-900">Total Sessions</p>
               <p className="text-2xl font-bold text-indigo-600">{analytics.sessionsCount}</p>
             </div>
           </div>
@@ -223,8 +231,10 @@ const AnalyticsPanel = () => {
               <Clock className="size-6" />
             </div>
             <div>
-              <p className="text-sm text-cyan-900">Cəmi Vaxt</p>
-              <p className="text-2xl font-bold text-cyan-600">{formatTime(analytics.totalTimeSpent)}</p>
+              <p className="text-sm text-cyan-900">Total Time</p>
+              <p className="text-2xl font-bold text-cyan-600">
+                {formatTime(analytics.totalTimeSpent)}
+              </p>
             </div>
           </div>
         </div>
@@ -235,9 +245,12 @@ const AnalyticsPanel = () => {
               <TrendingUp className="size-6" />
             </div>
             <div>
-              <p className="text-sm text-rose-900">Orta Endirmə</p>
+              <p className="text-sm text-rose-900">Average Download Rate</p>
               <p className="text-2xl font-bold text-rose-600">
-                {analytics.resumesCreated > 0 ? ((analytics.downloadsCount / analytics.resumesCreated) * 100).toFixed(1) : 0}%
+                {analytics.resumesCreated > 0
+                  ? ((analytics.downloadsCount / analytics.resumesCreated) * 100).toFixed(1)
+                  : 0}
+                %
               </p>
             </div>
           </div>
@@ -248,7 +261,8 @@ const AnalyticsPanel = () => {
       {analytics.lastActivityDate && (
         <div className="bg-gray-50 rounded-lg border border-gray-200 p-4">
           <p className="text-xs text-gray-600">
-            <span className="font-semibold">Son fəaliyyət:</span> {new Date(analytics.lastActivityDate).toLocaleString('az-AZ')}
+            <span className="font-semibold">Last activity:</span>{' '}
+            {new Date(analytics.lastActivityDate).toLocaleString('en-US')}
           </p>
         </div>
       )}

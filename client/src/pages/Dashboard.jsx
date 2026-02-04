@@ -45,16 +45,16 @@ const Dashboard = () => {
   const uploadResume = async (event) => {
     event.preventDefault()
     if (!resume) {
-      toast.error('Zəhmət olmasa CV faylını seçin')
+      toast.error('Please select a CV file')
       return
     }
     if (!title.trim()) {
-      toast.error('Zəhmət olmasa CV başlığını daxil edin')
+      toast.error('Please enter a CV title')
       return
     }
     
     setIsLoading(true)
-    const loadingToast = toast.loading('CV yüklənir... Zəhmət olmasa gözləyin')
+    const loadingToast = toast.loading('Uploading CV... Please wait')
     
     try {
       console.log('Starting PDF parsing...')
@@ -65,20 +65,18 @@ const Dashboard = () => {
       
       toast.dismiss(loadingToast)
       
-      // Use flushSync to force synchronous state updates, preventing DOM conflicts
       flushSync(() => {
         setIsLoading(false)
         setShowUploadResume(false)
       })
       
-      // Then navigate - component will unmount anyway
-      toast.success('CV uğurla yükləndi!')
+      toast.success('CV uploaded successfully!')
       navigate(`/app/builder/${data.resumeId}`)
     } catch (error) {
       console.error('Upload error:', error)
       toast.dismiss(loadingToast)
       setIsLoading(false)
-      toast.error(error?.response?.data?.message || 'CV yükləmə zamanı xəta oldu')
+      toast.error(error?.response?.data?.message || 'Error uploading CV')
     }
   }
 
@@ -97,7 +95,7 @@ const Dashboard = () => {
 
   const deleteResume = async (resumeId) => {
     try {
-       const confirm=window.confirm('Bu CV-ni silmək istədiyinizə əminsiniz?')
+       const confirm=window.confirm('Are you sure you want to delete this CV?')
     if(confirm){
       const {data} = await api.delete(`/api/resumes/delete/${resumeId}`, {headers: {Authorization: `Bearer ${token}`}})
       setAllResumes(allResumes.filter(resume => resume._id !== resumeId))
@@ -115,23 +113,23 @@ const Dashboard = () => {
   return (
     <div>
         <div className='max-w-7xl mx-auto px-4 py-8'>
-          <p className='text-2xl font-medium mb-6 bg-gradient-to-r from-slate-600 to-slate-700 bg-clip-text text-transparent sm:hidden'>Xoş gəldin Mürsəl Sadıqlı</p>
+          <p className='text-2xl font-medium mb-6 bg-gradient-to-r from-slate-600 to-slate-700 bg-clip-text text-transparent sm:hidden'>Welcome Mürsəl Sadıqlı</p>
           <div className='flex gap-4'>
             <button onClick={() => setShowCreateResume(true)} className='w-full bg-white sm:max-w-36 h-48 flex flex-col items-center justify-center rounded-lg gap-2 text-slate-600 border border-dashed border-slate-300 group hover:border-indigo-500 hover:shadow-lg transition-all duration-300 cursor-pointer'>
               <PlusIcon className='size-11 transition-all duration-300 p-2.5 bg-gradient-to-br from-indigo-300 to-indigo-500 text-white rounded-full' />
-              <p className='text-sm group-hover:text-indigo-600 transition-all'>CV yarat</p>
+              <p className='text-sm group-hover:text-indigo-600 transition-all'>Create CV</p>
             </button>
             <button onClick={() => setShowUploadResume(true)} className='w-full bg-white sm:max-w-36 h-48 flex flex-col items-center justify-center rounded-lg gap-2 text-slate-600 border border-dashed border-slate-300 group hover:border-purple-500 hover:shadow-lg transition-all duration-300 cursor-pointer'>
               <UploadCloudIcon className='size-11 transition-all duration-300 p-2.5 bg-gradient-to-br from-purple-300 to-purple-500 text-white rounded-full' />
-              <p className='text-sm group-hover:text-purple-600 transition-all'>Mövcud CV-ni yüklə</p>
+              <p className='text-sm group-hover:text-purple-600 transition-all'>Upload Existing CV</p>
             </button>
             <button onClick={() => navigate('/app/templates')} className='w-full bg-white sm:max-w-36 h-48 flex flex-col items-center justify-center rounded-lg gap-2 text-slate-600 border border-dashed border-slate-300 group hover:border-pink-500 hover:shadow-lg transition-all duration-300 cursor-pointer'>
               <Sparkles className='size-11 transition-all duration-300 p-2.5 bg-gradient-to-br from-pink-300 to-pink-500 text-white rounded-full' />
-              <p className='text-sm group-hover:text-pink-600 transition-all'>Şablonlar</p>
+              <p className='text-sm group-hover:text-pink-600 transition-all'>Templates</p>
             </button>
             <button onClick={() => navigate('/app/job-matcher')} className='w-full bg-white sm:max-w-36 h-48 flex flex-col items-center justify-center rounded-lg gap-2 text-slate-600 border border-dashed border-slate-300 group hover:border-green-500 hover:shadow-lg transition-all duration-300 cursor-pointer'>
               <Zap className='size-11 transition-all duration-300 p-2.5 bg-gradient-to-br from-green-300 to-green-500 text-white rounded-full' />
-              <p className='text-sm group-hover:text-green-600 transition-all'>İş Analizi</p>
+              <p className='text-sm group-hover:text-green-600 transition-all'>Job Analysis</p>
             </button>
           </div>
 
@@ -147,7 +145,7 @@ const Dashboard = () => {
                   <FilePenLineIcon className='size-7 group-hover:scale-105 transition-all' style={{color: baseColor}} />
                   <p className='text-sm group-hover:scale-105 transition-all px-2 text-center' style={{color: baseColor}}>{resume.title}</p>
                   <p className='absolute bottom-1 text-[11px] text-slate-400  group-hover:text-slate-500 transition-all duration-300 px-2 text-center' style={{color: baseColor + '90'}}>
-                    Son yenilənmə {new Date(resume.updatedAt).toLocaleDateString()}</p>
+                    Last updated {new Date(resume.updatedAt).toLocaleDateString()}</p>
                     <div onClick={e => e.stopPropagation()} className='absolute top-1 right-1 group-hover:flex items-center hidden'>
                       <TrashIcon onClick={() => deleteResume(resume._id)} className='size-7 p-1.5 hover:bg-white/50 rounded text-slate-700 transition-colors' />
                       <PencilIcon onClick={() => {setEditResumeId(resume._id); setTitle(resume.title)}} className='size-7 p-1.5 hover:bg-white/50 rounded text-slate-700 transition-colors' />
@@ -160,10 +158,10 @@ const Dashboard = () => {
           {showCreateResume && (
             <form onSubmit={createResume} onClick={() => {setShowCreateResume(false); setTitle('')}} className='fixed inset-0 bg-black/70 backdrop-blur bg-opacity-50 z-10 flex items-center justify-center'>
               <div onClick={e => e.stopPropagation()} className='relative bg-slate-50 border shadow-md rounded-lg w-full max-w-sm p-6'>
-                <h2 className='text-xl font-bold mb-4'>CV yaradın</h2>
-                <input onChange={(e) => setTitle(e.target.value)} value={title} type='text' placeholder='CV başlığını daxil edin' className='w-full px-4 py-2 mb-4 focus:border-green-600 ring-green-600' required />
+                <h2 className='text-xl font-bold mb-4'>Create CV</h2>
+                <input onChange={(e) => setTitle(e.target.value)} value={title} type='text' placeholder='Enter CV title' className='w-full px-4 py-2 mb-4 focus:border-green-600 ring-green-600' required />
 
-                <button className='w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors'>CV yaradın</button>
+                <button className='w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors'>Create CV</button>
                 <XIcon onClick={() => {setShowCreateResume(false); setTitle('')}} className='absolute top-4 right-4 text-slate-400 hover:text-slate-600 cursor-pointer transition-colors' />
               </div>
             </form>
@@ -172,11 +170,11 @@ const Dashboard = () => {
           {showUploadResume && (
               <form onSubmit={uploadResume} onClick={() => {setShowUploadResume(false); setTitle(''); setResume(null)}} className='fixed inset-0 bg-black/70 backdrop-blur bg-opacity-50 z-10 flex items-center justify-center'>
               <div onClick={e => e.stopPropagation()} className='relative bg-slate-50 border shadow-md rounded-lg w-full max-w-sm p-6'>
-                <h2 className='text-xl font-bold mb-4'>CV-ni yükləyin</h2>
-                <input onChange={(e) => setTitle(e.target.value)} value={title} type='text' placeholder='CV başlığını daxil edin' className='w-full px-4 py-2 mb-4 focus:border-green-600 ring-green-600' required />
+                <h2 className='text-xl font-bold mb-4'>Upload CV</h2>
+                <input onChange={(e) => setTitle(e.target.value)} value={title} type='text' placeholder='Enter CV title' className='w-full px-4 py-2 mb-4 focus:border-green-600 ring-green-600' required />
                 <div>
                   <label htmlFor='resume-input' className='block text-sm text-slate-700 mb-2'>
-                    CV faylını seçin
+                    Select CV file
                   </label>
                   <div 
                     onClick={() => document.getElementById('resume-input')?.click()}
@@ -185,13 +183,13 @@ const Dashboard = () => {
                     {resume ? (
                       <div className='text-center'>
                         <p className='text-green-700 font-semibold'>{resume.name}</p>
-                        <p className='text-xs text-gray-500 mt-1'>Dəyişdirmək üçün klik edin</p>
+                        <p className='text-xs text-gray-500 mt-1'>Click to change</p>
                       </div>
                     ) : (
                       <>
                         <UploadCloud className='size-14 stroke-1' />
-                        <p className='font-semibold'>CV PDF faylını seçin</p>
-                        <p className='text-xs'>və ya buraya çəkin</p>
+                        <p className='font-semibold'>Select CV PDF file</p>
+                        <p className='text-xs'>or drag it here</p>
                       </>
                     )}
                   </div>
@@ -208,7 +206,7 @@ const Dashboard = () => {
                   className='w-full py-3 bg-green-600 text-white rounded hover:bg-green-700 disabled:bg-gray-400 transition-colors flex items-center justify-center gap-2 font-semibold'
                 >
                   {isLoading && <LoaderCircleIcon className='animate-spin size-4 text-white' />}
-                  {isLoading ? 'Yüklənir... Zəhmət olmasa gözləyin' : 'CV-ni Yüklə'}
+                  {isLoading ? 'Uploading... Please wait' : 'Upload CV'}
                 </button>
                 <XIcon onClick={() => {setShowUploadResume(false); setTitle(''); setResume(null)}} className='absolute top-4 right-4 text-slate-400 hover:text-slate-600 cursor-pointer transition-colors' />
               </div>
@@ -218,10 +216,10 @@ const Dashboard = () => {
            {editResumeId && (
             <form onSubmit={editTitle} onClick={() => setEditResumeId('')} className='fixed inset-0 bg-black/70 backdrop-blur bg-opacity-50 z-10 flex items-center justify-center'>
               <div onClick={e => e.stopPropagation()} className='relative bg-slate-50 border shadow-md rounded-lg w-full max-w-sm p-6'>
-                <h2 className='text-xl font-bold mb-4'>CV başlığını dəyişin</h2>
-                <input onChange={(e) => setTitle(e.target.value)} value={title} type='text' placeholder='CV başlığını daxil edin' className='w-full px-4 py-2 mb-4 focus:border-green-600 ring-green-600' required />
+                <h2 className='text-xl font-bold mb-4'>Edit CV Title</h2>
+                <input onChange={(e) => setTitle(e.target.value)} value={title} type='text' placeholder='Enter CV title' className='w-full px-4 py-2 mb-4 focus:border-green-600 ring-green-600' required />
 
-                <button className='w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors'>Yenilə</button>
+                <button className='w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors'>Update</button>
                 <XIcon onClick={() => {setEditResumeId(''); setTitle('')}} className='absolute top-4 right-4 text-slate-400 hover:text-slate-600 cursor-pointer transition-colors' />
               </div>
             </form>
